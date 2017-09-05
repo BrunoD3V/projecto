@@ -64,7 +64,7 @@ public class NodeGest extends Thread{
     public static void main(String[] args) throws IOException {
         
         nodeGestOutput = null;
-        IP = "193.137.106.155";
+        IP = "193.137.106.181";
         outputPort = "1111";
         inputPort = "1112";
         sector = "14";
@@ -78,13 +78,13 @@ public class NodeGest extends Thread{
         managerOutput.println("Sector: " + sector);
         
         ServerSocket nodeGestServer = new ServerSocket(Integer.parseInt(inputPort));
-        System.out.println("NodeGest connected to sector: " + sector + "in Port: " + inputPort);
+        System.out.println("NodeGest connected to sector: " + sector + " in Port: " + inputPort);
         
         while (true) {
 
                 Socket nodeConnection = nodeGestServer.accept(); //aceita ligaçoes do Nodo
                 System.out.println("Connected to Node");
-
+                
                 Thread ts = new NodeGest(nodeConnection, nodeGestOutput, managerOutput);//passa a ligaçao para uma Thread
                 ts.start();
             }

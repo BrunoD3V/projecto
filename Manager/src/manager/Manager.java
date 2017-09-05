@@ -38,6 +38,7 @@ public class Manager extends Thread{
             
             Thread t = new Manager(nodeGestInput,nodeGestOutput);
             t.start();
+            System.out.println("Manager Running...");
            
         } catch (IOException ex) {
             Logger.getLogger(Manager.class.getName()).log(Level.SEVERE, null, ex);
