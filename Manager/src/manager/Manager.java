@@ -28,20 +28,59 @@ public class Manager extends Thread{
             server = new ServerSocket(1111);
             nodeGestList = new Vector<NodeGest>();
             
-            nodeGestConnector = server.accept();
-            
+            while(true){
+                nodeGestConnector = server.accept();
+                System.out.println("Manager is Running...");
+                
+                Thread t = new Manager(nodeGestInput,nodeGestOutput);
+                t.start();
+            }
+       } catch (IOException ex) {
+            Logger.getLogger(Manager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void run(){
+        try {
             nodeGestOutput = new PrintStream(nodeGestConnector.getOutputStream());
             nodeGestInput = new BufferedReader(new InputStreamReader(nodeGestConnector.getInputStream()));
             
+            System.out.println("NodeGest connected to Manager!");
+            
             NodeGest ng = new NodeGest("1", nodeGestOutput);
             nodeGestList.add(ng);
-            
-            Thread t = new Manager(nodeGestInput,nodeGestOutput);
-            t.start();
-            System.out.println("Manager Running...");
-           
         } catch (IOException ex) {
             Logger.getLogger(Manager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void requestData(String request){
+        System.out.println("Request: " + request);
+        
+        if(nodeGestOutput != null){
+            //Full Request Format e.g.: Request NG1 N2 S1
+            if(request.startsWith("Request")){
+                request = request.substring(8);
+                if(request.startsWith("NG")){
+                    int element = Integer.parseInt(request.substring(2,3));
+                    request = request.substring(4);
+                    request = "Request " + request;
+                    nodeGestList.elementAt(element-1).output.println(request);
+                    System.out.println("Request para o NodeGest: " + request);
+                }
+            }
+            //Full SetInterval Format e.g.: SetInterval NG1 N2 S1
+            if(request.startsWith("SetInterval")){
+                request = request.substring(8);
+                if(request.startsWith("NG")){
+                    int element = Integer.parseInt(request.substring(2,3));
+                    request = request.substring(4);
+                    request = "SetInterval " + request;
+                    nodeGestList.elementAt(element-1).output.println(request);
+                    System.out.println("SetInterval para o NodeGest: " + request);
+                }
+            }
         }
     }
 }

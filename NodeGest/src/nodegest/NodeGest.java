@@ -20,8 +20,8 @@ public class NodeGest extends Thread{
     
     private static Vector<Node> nodeList;
     
-    private static PrintStream managerOutput;         //canal de saida para o Gestor principal
-    private static PrintStream nodeGestOutput;       //canal de saida para o nodo
+    private static PrintStream managerOutput;         //Output Channel to Manager
+    private static PrintStream nodeOutput;       //Output Channel to Node
 
     public static float TempMin = -20;
     public static float TempMax = 50;
@@ -30,10 +30,10 @@ public class NodeGest extends Thread{
     public static float RadiMin = (float) 0.0;
     public static float RadiMax = (float) 0.08;
     
-    private NodeGest(Socket nodeConnection, PrintStream nodeGestOutput, PrintStream managerOutput) {
+    private NodeGest(Socket nodeConnection, PrintStream nodeOutput, PrintStream managerOutput) {
 
         this.nodeConnection = nodeConnection;
-        this.nodeGestOutput = nodeGestOutput;
+        this.nodeOutput = nodeOutput;
         this.managerOutput = managerOutput;
     }
 
@@ -63,11 +63,11 @@ public class NodeGest extends Thread{
     
     public static void main(String[] args) throws IOException {
         
-        nodeGestOutput = null;
-        IP = "193.137.106.181";
+        nodeOutput = null;
+        IP = "193.137.106.212";
         outputPort = "1111";
         inputPort = "1112";
-        sector = "14";
+        sector = "1";
         
         nodeList = new Vector<Node>();
         
@@ -75,44 +75,47 @@ public class NodeGest extends Thread{
         final PrintStream managerOutput = new PrintStream (managerConnection.getOutputStream());
         final BufferedReader managerInput = new BufferedReader(new InputStreamReader(managerConnection.getInputStream()));
         
+        //SENDS MESSAGES TO THE MANAGER
         managerOutput.println("Sector: " + sector);
         
         ServerSocket nodeGestServer = new ServerSocket(Integer.parseInt(inputPort));
-        System.out.println("NodeGest connected to sector: " + sector + " in Port: " + inputPort);
+        System.out.println("NodeGest: Active \n== Sector: " + sector +" ==" + " \n== Listening in Port: " + inputPort + " ==" + "\nWaiting Node to connect...");
         
         while (true) {
+            Socket nodeConnection = nodeGestServer.accept(); 
+            System.out.println("Node Connected to NodeGest: " + sector);
 
-                Socket nodeConnection = nodeGestServer.accept(); //aceita ligaçoes do Nodo
-                System.out.println("Connected to Node");
-                
-                Thread ts = new NodeGest(nodeConnection, nodeGestOutput, managerOutput);//passa a ligaçao para uma Thread
-                ts.start();
-            }
+            Thread ts = new NodeGest(nodeConnection, nodeOutput, managerOutput);
+            ts.start();
+        }
     }
     
     @Override
     public void run(){
-        
         try{
-            nodeGestOutput = new PrintStream(nodeConnection.getOutputStream());
+            nodeOutput = new PrintStream(nodeConnection.getOutputStream());
             BufferedReader nodeInput = new BufferedReader(new InputStreamReader(nodeConnection.getInputStream()));
             
             String nodeData = nodeInput.readLine();
             
-            managerOutput.println(nodeData);
-            
             String zone = nodeData;
-            Node n = new Node(zone, nodeGestOutput);
-            //nodeList.add(n);
+            Node n = new Node(zone, nodeOutput);
+            nodeList.add(n);
             //NodeList(nodeList);
             
+            //SENDS MESSAGES TO THE MANAGER
+            managerOutput.println(nodeData);
+            //SENDS MESSAGES TO THE NODE
+            nodeOutput.println("Request Temp");
+            
             while(true){
+                //RECEIVES MESSAGES FROM NODE
                 String data = nodeInput.readLine();
                 System.out.println("Node message: " + data);
+                //SENDS MESSAGES TO THE MANAGER
                 managerOutput.println("Sector: " + sector + " " + data);
                 
                 //String newData = data.substring(8);
-            
             }
             
         } catch (IOException ex) {

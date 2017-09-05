@@ -14,7 +14,7 @@ import java.io.PrintStream;
 public class NodeGest {
     
     private String sector;
-    private PrintStream output;  //SABADO 
+    public PrintStream output;  //SABADO 
 
     public NodeGest(String sector, PrintStream output) {
 

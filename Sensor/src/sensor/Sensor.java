@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import  java.net.Socket;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +22,7 @@ public class Sensor extends Thread {
     private static String PORT;
 
     //Sensor Properties
-    private static String TYPE;
+    public static String TYPE;
     
     
     //Temperature between -10Cº - 45Cº
@@ -79,7 +81,7 @@ public class Sensor extends Thread {
     
     public static void main(String[] args) throws IOException {
         
-        IP = "193.137.106.181";
+        IP = "193.137.106.212";
         PORT = "1113";
         TYPE = "Temp";
         
@@ -92,13 +94,19 @@ public class Sensor extends Thread {
         nodeInput  = new BufferedReader(new InputStreamReader(nodeConnector.getInputStream()));
         
         nodeOutput.println("TYPE");
-        System.out.println("TYPE: " + TYPE);
         
         Thread t = new Sensor(nodeConnector){
             public void run(){
                 try{
                     while(true){
+                        //RECEBE MENSAGENS DO NODO
                         String nodeData = nodeInput.readLine();
+                        new Timer().schedule(new TimerTask(){
+                            @Override
+                            public void run() {
+                                RequestSensorData(TYPE);
+                            }
+                        },1000*5,1000*5); 
                         if(nodeData.startsWith("Request")){
                             nodeData = nodeData.substring(8);
                             RequestSensorData(nodeData);
@@ -135,6 +143,8 @@ public class Sensor extends Thread {
                     nodeOutput.println("Radiation: " + radiation);
                 }
                 break;
+            default:
+                nodeOutput.println("Error requesting sensor data.");
         }
     }
 }
