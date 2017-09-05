@@ -23,6 +23,7 @@ public class NodeGest extends Thread{
     
     private static Vector<Node> nodeList;
     
+    private static BufferedReader managerInput;         //Input Channel to Manager
     private static PrintStream managerOutput;         //Output Channel to Manager
     private static PrintStream nodeOutput;       //Output Channel to Node
 
@@ -67,7 +68,7 @@ public class NodeGest extends Thread{
     public static void main(String[] args) throws IOException {
         
         nodeOutput = null;
-        IP = "193.137.106.212";
+        IP = "193.137.106.244";
         outputPort = "1111";
         inputPort = "1112";
         sector = "1";
@@ -75,8 +76,8 @@ public class NodeGest extends Thread{
         nodeList = new Vector<Node>();
         
         Socket managerConnection = new Socket(IP, Integer.parseInt(outputPort));
-        final PrintStream managerOutput = new PrintStream (managerConnection.getOutputStream());
-        final BufferedReader managerInput = new BufferedReader(new InputStreamReader(managerConnection.getInputStream()));
+        managerOutput = new PrintStream (managerConnection.getOutputStream());
+        managerInput = new BufferedReader(new InputStreamReader(managerConnection.getInputStream()));
         
         //SENDS MESSAGES TO THE MANAGER
         managerOutput.println("Sector: " + sector);
@@ -85,9 +86,12 @@ public class NodeGest extends Thread{
         System.out.println("NodeGest: Active \n== Sector: " + sector +" ==" + " \n== Listening in Port: " + inputPort + " ==" + "\nWaiting Node to connect...");
         
         while (true) {
+            String managerData = managerInput.readLine();
+            System.out.println("Manager Data: " + managerData);
+            
             Socket nodeConnection = nodeGestServer.accept(); 
             System.out.println("Node Connected to NodeGest: " + sector);
-
+            
             Thread ts = new NodeGest(nodeConnection, nodeOutput, managerOutput);
             ts.start();
         }
@@ -108,8 +112,6 @@ public class NodeGest extends Thread{
             
             //SENDS MESSAGES TO THE MANAGER
             managerOutput.println(nodeData);
-            //SENDS MESSAGES TO THE NODE
-            nodeOutput.println("Request Temp");
             
             while(true){
                 //RECEIVES MESSAGES FROM NODE

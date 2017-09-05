@@ -37,7 +37,7 @@ public class Node extends Thread{
         sensorOutput = null;
         sensorInput = null;
         
-        IP = "193.137.106.212";
+        IP = "193.137.106.244";
         inputPort = "1113";
         outputPort = "1112";
         zone = "1";
@@ -51,40 +51,20 @@ public class Node extends Thread{
         
         ServerSocket serverNode = new ServerSocket(Integer.parseInt(inputPort));
         
-        Thread t = new Node(nodeGestConnection, sensorOutput, nodeGestOutput){
-            public void run(){
-                while(true){
-                    try {
-                        //RECEIVES MESSAGES FROM NODEGEST
-                        String nodeGestData = nodeGestInput.readLine();
-                        if(nodeGestData.startsWith("request")){
-                            //SEND MESSAGES TO THE SENSOR
-                            sensorOutput.println(nodeGestData);
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(Node.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }  
-        };
-        
         System.out.println("Node: Active \n== Zone: " + zone +" ==" + " \n== Listening in Port: " + inputPort + " ==" + "\nWaiting Sensor to connect...");
         
         while (true) {
+            Socket connection = serverNode.accept();
+            System.out.println("Sensor connected to Node: " + zone);
 
-                Socket connection = serverNode.accept();
-                System.out.println("Sensor connected to Node: " + zone);
-
-                Thread ts = new Node(connection, sensorOutput, nodeGestOutput);
-                ts.start();
-            }
+            Thread ts = new Node(connection, sensorOutput, nodeGestOutput);
+            ts.start();
+        }
     }
     
     @Override
     public void run(){
-        
         try {
-            
             sensorOutput = new PrintStream(nodeGestConnector.getOutputStream());
             sensorInput = new BufferedReader(new InputStreamReader(nodeGestConnector.getInputStream()));
             

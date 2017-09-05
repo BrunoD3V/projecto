@@ -20,15 +20,13 @@ public class Sensor extends Thread {
     private Socket connection = null;
     private static PrintStream nodeOutput;
     private static BufferedReader nodeInput;
-    private static int interval = 2; 
+    private static int interval = 1; 
     
     private static String IP;
     private static String PORT;
-
-    //Sensor Properties
+    
     public static String TYPE;
-    
-    
+
     //Temperature between -10Cº - 45Cº
     private static float minT = -10.0f;
     private static float maxT = 45.0f;
@@ -89,7 +87,7 @@ public class Sensor extends Thread {
     
     public static void main(String[] args) throws IOException {
         
-        IP = "193.137.106.212";
+        IP = "193.137.106.244";
         PORT = "1113";
         TYPE = "Temp";
         
@@ -101,7 +99,7 @@ public class Sensor extends Thread {
         //Input Channel
         nodeInput  = new BufferedReader(new InputStreamReader(nodeConnector.getInputStream()));
         
-        nodeOutput.println("TYPE");
+        nodeOutput.println(TYPE);
         
         Thread t = new Sensor(nodeConnector){
             @Override
@@ -114,7 +112,7 @@ public class Sensor extends Thread {
                         new Timer().schedule(new TimerTask(){
                             @Override
                             public void run() {
-                                RequestSensorData(TYPE);
+                                RequestSensorData(Sensor.TYPE);
                             }
                         },1000*60*interval,1000*60*interval); 
                         if(nodeData.startsWith("Request")){

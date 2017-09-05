@@ -48,6 +48,8 @@ public class Manager extends Thread{
             
             System.out.println("NodeGest connected to Manager!");
             
+            nodeGestOutput.println("Request N1 S1");
+            
             NodeGest ng = new NodeGest("1", nodeGestOutput);
             nodeGestList.add(ng);
         } catch (IOException ex) {
