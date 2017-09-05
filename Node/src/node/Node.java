@@ -9,7 +9,10 @@ import java.net.Socket;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ *
+ * @author bruno
+ */
 public class Node extends Thread{
 
     private Socket nodeGestConnector = null;
@@ -106,6 +109,35 @@ public class Node extends Thread{
             }
         } catch (IOException ex) {
             Logger.getLogger(Node.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void requestData(String request){
+        System.out.println("Request: " + request);
+        
+        if(sensorOutput != null){
+            //Full Request Format e.g.: Request S1
+            if(request.startsWith("Request")){
+                request = request.substring(8);
+                if(request.startsWith("S")){
+                    int element = Integer.parseInt(request.substring(1,2));
+                    String type = sensorList.elementAt(element-1).type;
+                    request = "Request " + type;
+                    sensorList.elementAt(element-1).output.println(request);
+                    System.out.println("Request para o Sensor: \n" + request);
+                }
+            }
+            //Full SetInterval Format e.g.: SetInterval S1 m2
+            if(request.startsWith("SetInterval")){
+                request = request.substring(12);
+                if(request.startsWith("S")){
+                    int element = Integer.parseInt(request.substring(1,2));
+                    request = request.substring(3);
+                    request = "SetInterval " + request;
+                    sensorList.elementAt(element-1).output.println(request);
+                    System.out.println("SetInterval para o Sensor: \n" + request);
+                }
+            }
         }
     }
 }

@@ -9,7 +9,10 @@ import java.net.Socket;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ *
+ * @author bruno
+ */
 public class NodeGest extends Thread{
 
     private Socket nodeConnection = null;
@@ -29,7 +32,7 @@ public class NodeGest extends Thread{
     public static float HumiMax = 100;
     public static float RadiMin = (float) 0.0;
     public static float RadiMax = (float) 0.08;
-    
+   
     private NodeGest(Socket nodeConnection, PrintStream nodeOutput, PrintStream managerOutput) {
 
         this.nodeConnection = nodeConnection;
@@ -123,4 +126,32 @@ public class NodeGest extends Thread{
         }
     }
     
+    public void requestData(String request){
+        System.out.println("Request: " + request);
+        
+        if(nodeOutput != null){
+            //Full Request Format e.g.: Request N2 S1
+            if(request.startsWith("Request")){
+                request = request.substring(8);
+                if(request.startsWith("N")){
+                    int element = Integer.parseInt(request.substring(1,2));
+                    request = request.substring(3);
+                    request = "Request " + request;
+                    nodeList.elementAt(element-1).output.println(request);
+                    System.out.println("Request para o Node: \n" + request);
+                }
+            }
+            //Full SetInterval Format e.g.: SetInterval N2 S1 m2
+            if(request.startsWith("SetInterval")){
+                request = request.substring(12);
+                if(request.startsWith("N")){
+                    int element = Integer.parseInt(request.substring(1,2));
+                    request = request.substring(3);
+                    request = "SetInterval " + request;
+                    nodeList.elementAt(element-1).output.println(request);
+                    System.out.println("SetInterval para o Node: \n" + request);
+                }
+            }
+        }
+    }
 }

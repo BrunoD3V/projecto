@@ -10,13 +10,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+/**
+ *
+ * @author bruno
+ */
 public class Sensor extends Thread {
 
     //Connection Variables
     private Socket connection = null;
     private static PrintStream nodeOutput;
     private static BufferedReader nodeInput;
+    private static int interval = 2; 
     
     private static String IP;
     private static String PORT;
@@ -38,6 +42,10 @@ public class Sensor extends Thread {
     //Connection Constructor
     private Sensor (Socket connection){
         this.connection = connection;
+    }
+
+    public static void setInterval(int interval) {
+        Sensor.interval = interval;
     }
 
     private static float getTemp( float minT, float maxT ){
@@ -96,22 +104,31 @@ public class Sensor extends Thread {
         nodeOutput.println("TYPE");
         
         Thread t = new Sensor(nodeConnector){
+            @Override
             public void run(){
                 try{
                     while(true){
                         //RECEBE MENSAGENS DO NODO
                         String nodeData = nodeInput.readLine();
+                        System.out.println("Node data received: " + nodeData);
                         new Timer().schedule(new TimerTask(){
                             @Override
                             public void run() {
                                 RequestSensorData(TYPE);
                             }
-                        },1000*5,1000*5); 
+                        },1000*60*interval,1000*60*interval); 
                         if(nodeData.startsWith("Request")){
                             nodeData = nodeData.substring(8);
                             RequestSensorData(nodeData);
                         }
-                        System.out.println("Node data received: " + nodeData);
+                        //Full SetInterval Format e.g.: SetInterval m2
+                        if(nodeData.startsWith("SetInterval")){
+                            nodeData = nodeData.substring(12);
+                            if(nodeData.startsWith("m")){
+                                setInterval(Integer.parseInt(nodeData.substring(1,2)));
+                                System.out.println("Interval set to: " + nodeData.substring(1,2));
+                            }
+                        }
                     }
                 }catch(IOException ex){
                     Logger.getLogger(Sensor.class.getName()).log(Level.SEVERE, null, ex);

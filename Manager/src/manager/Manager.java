@@ -70,9 +70,9 @@ public class Manager extends Thread{
                     System.out.println("Request para o NodeGest: " + request);
                 }
             }
-            //Full SetInterval Format e.g.: SetInterval NG1 N2 S1
+            //Full SetInterval Format e.g.: SetInterval N2 S1 m2
             if(request.startsWith("SetInterval")){
-                request = request.substring(8);
+                request = request.substring(12);
                 if(request.startsWith("NG")){
                     int element = Integer.parseInt(request.substring(2,3));
                     request = request.substring(4);

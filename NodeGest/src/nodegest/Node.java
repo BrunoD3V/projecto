@@ -13,12 +13,12 @@ import java.io.PrintStream;
  */
 public class Node {
     
-    private String zone;
-    private PrintStream nodeOutput;
+    public String zone;
+    public PrintStream output;
 
     public Node(String zone, PrintStream nodeOutput){
 
         this.zone = zone;
-        this.nodeOutput = nodeOutput;
+        this.output = nodeOutput;
     }
 }

@@ -13,8 +13,8 @@ import java.io.PrintStream;
  */
 public class NodeGest {
     
-    private String sector;
-    public PrintStream output;  //SABADO 
+    public String sector;
+    public PrintStream output; 
 
     public NodeGest(String sector, PrintStream output) {
 
