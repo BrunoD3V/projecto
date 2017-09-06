@@ -101,6 +101,7 @@ public class Sensor extends Thread {
         
         nodeOutput.println(TYPE);
         
+        //THREAD THAT LISTENS/SENDS MESSAGES FROM/TO NODE
         Thread t = new Sensor(nodeConnector){
             @Override
             public void run(){

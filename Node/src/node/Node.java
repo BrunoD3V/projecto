@@ -93,11 +93,8 @@ public class Node extends Thread{
             sensorInput = new BufferedReader(new InputStreamReader(sensorConnector.getInputStream()));
             
             String type = sensorInput.readLine();
-            
             Sensor sensor = new Sensor(type, sensorOutput);
             sensorList.add(sensor);
-            
-            //SensorList(sensorList);
             
             //SEND MESSAGES TO THE SENSOR
             sensorOutput.println("Request Temp");
@@ -105,10 +102,21 @@ public class Node extends Thread{
             while(true){
                 //RECEIVES MESSAGES FROM THE SENSOR
                 String sensorData = sensorInput.readLine();
-                //TODO: decidir que codgo de mensagem vai passar ao NodeGest
+                if(sensorData.startsWith("Response")){
+                    sensorData = sensorData.substring(8);
+                    if(sensorData.startsWith("Interval")){
+                        sensorData = "Response " + sensorData;
+                        nodeGestOutput.println(sensorData);
+                        System.out.println("Message Sent to NodeGest: " + sensorData);
+                    }
+                }
+                
+                
+                /* ????? que está isto aqui a fazer?
                 System.out.println("Node: " + sensorData);
                 if(sensorData.startsWith("Node: "))
                     nodeGestOutput.println("Zone: " + zone + " :" + sensorData); //SENDS MESSAGES TO NODEGEST
+                        */
             }
         } catch (IOException ex) {
             Logger.getLogger(Node.class.getName()).log(Level.SEVERE, null, ex);
