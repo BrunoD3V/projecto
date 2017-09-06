@@ -87,7 +87,7 @@ public class Sensor extends Thread {
     
     public static void main(String[] args) throws IOException {
         
-        IP = "193.137.106.244";
+        IP = "193.137.107.8";
         PORT = "1113";
         TYPE = "Temp";
         
@@ -124,6 +124,7 @@ public class Sensor extends Thread {
                             nodeData = nodeData.substring(12);
                             if(nodeData.startsWith("m")){
                                 setInterval(Integer.parseInt(nodeData.substring(1,2)));
+                                nodeOutput.println("Response Interval set to: " + nodeData.substring(1,2));
                                 System.out.println("Interval set to: " + nodeData.substring(1,2));
                             }
                         }
@@ -143,19 +144,19 @@ public class Sensor extends Thread {
             case "Temp": 
                 if(TYPE.equalsIgnoreCase("Temp")){
                     temperature = getTemp(minT,maxT);
-                    nodeOutput.println("Temperature: " + temperature);
+                    nodeOutput.println("Response Temperature: " + temperature);
                 }
                 break;
             case "Humi": 
                if(TYPE.equalsIgnoreCase("Humi")){
                     humidity = getHumidity(minHu, maxHu);
-                    nodeOutput.println("Humidity: " + humidity);
+                    nodeOutput.println("Response Humidity: " + humidity);
                 }
                 break;
             case "Radi": 
                 if(TYPE.equalsIgnoreCase("Radi")){
                     radiation = getSolarRad(minSRad,maxSRad);
-                    nodeOutput.println("Radiation: " + radiation);
+                    nodeOutput.println("Response Radiation: " + radiation);
                 }
                 break;
             default:

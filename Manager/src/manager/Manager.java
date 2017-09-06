@@ -40,18 +40,37 @@ public class Manager extends Thread{
         }
     }
     
+    //THREAD LISTENS AND SENDS MESSAGES FROM/TO NODEGEST
     @Override
     public void run(){
         try {
-            nodeGestOutput = new PrintStream(nodeGestConnector.getOutputStream());
-            nodeGestInput = new BufferedReader(new InputStreamReader(nodeGestConnector.getInputStream()));
             
             System.out.println("NodeGest connected to Manager!");
             
-            nodeGestOutput.println("Request N1 S1");
+            nodeGestOutput = new PrintStream(nodeGestConnector.getOutputStream());
+            nodeGestInput = new BufferedReader(new InputStreamReader(nodeGestConnector.getInputStream()));
+            //TEST REQUEST
+            //nodeGestOutput.println("Request N1 S1");
             
-            NodeGest ng = new NodeGest("1", nodeGestOutput);
-            nodeGestList.add(ng);
+            //Waits messages from nodeGest.
+            while(true){
+                String nodeGestData = nodeGestInput.readLine();
+                //TRATAR DADOS DO NODEGEST
+                //NEW NODEGEST ADDED TO NODEGEST LIST
+                if(nodeGestData.startsWith("Sector")){
+                    String sectorNumber = nodeGestData.substring(7);
+                    NodeGest ng = new NodeGest(sectorNumber, nodeGestOutput);
+                    nodeGestList.add(ng);
+                    System.out.println("TESTE SECTOR: " + nodeGestData);
+                }
+                //RESPONSES TO DATA REQUESTS
+                if(nodeGestData.startsWith("Response")){
+                    //TODO TODO TODO TODO TODO TODO
+                }
+                if(nodeGestData.startsWith("Alert")){
+                    //TODO TODO TODO TODO TODO TODO
+                }
+            }    
         } catch (IOException ex) {
             Logger.getLogger(Manager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -72,7 +91,7 @@ public class Manager extends Thread{
                     System.out.println("Request para o NodeGest: " + request);
                 }
             }
-            //Full SetInterval Format e.g.: SetInterval N2 S1 m2
+            //Full SetInterval Format e.g.: SetInterval NG1 N2 S1 m2
             if(request.startsWith("SetInterval")){
                 request = request.substring(12);
                 if(request.startsWith("NG")){

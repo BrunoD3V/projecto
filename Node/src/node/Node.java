@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class Node extends Thread{
 
     private Socket nodeGestConnector = null;
+    private Socket sensorConnector = null;
     private static String IP;
     private static String inputPort;
     private static String outputPort;
@@ -26,9 +27,8 @@ public class Node extends Thread{
     private static PrintStream sensorOutput;         
     private static BufferedReader sensorInput;
     
-    private Node(Socket nodeGestConnector, PrintStream sensorOutput, PrintStream nodeGestOutput){
-        this.nodeGestConnector = nodeGestConnector;
-        this.sensorOutput = sensorOutput;
+    private Node(Socket sensorConnector, PrintStream nodeGestOutput){
+        this.sensorConnector = sensorConnector;
         this.nodeGestOutput = nodeGestOutput;
     }
     
@@ -37,7 +37,7 @@ public class Node extends Thread{
         sensorOutput = null;
         sensorInput = null;
         
-        IP = "193.137.106.244";
+        IP = "193.137.107.8";
         inputPort = "1113";
         outputPort = "1112";
         zone = "1";
@@ -47,26 +47,50 @@ public class Node extends Thread{
         final PrintStream nodeGestOutput = new PrintStream(nodeGestConnection.getOutputStream()); //Output NodeGest
         final BufferedReader nodeGestInput = new BufferedReader(new InputStreamReader(nodeGestConnection.getInputStream()));//Input Nodegest
 
-        nodeGestOutput.println("Zone: " + zone);
+        nodeGestOutput.println("Zone " + zone);
         
         ServerSocket serverNode = new ServerSocket(Integer.parseInt(inputPort));
         
         System.out.println("Node: Active \n== Zone: " + zone +" ==" + " \n== Listening in Port: " + inputPort + " ==" + "\nWaiting Sensor to connect...");
         
+        //THREAD THAT LISTENS/SENDS MESSAGES FROM/TO NODEGEST
+        Thread t = new Thread(){
+            @Override
+            public void run(){
+                while(true){
+                    try {
+                        //Receives messages from NodeGest
+                        String nodeGData = nodeGestInput.readLine();
+                        System.out.println("NodeGestData: " + nodeGData);
+                        
+                        //TODO TODO TODO TODO
+                        
+                        
+                    } catch (IOException ex) {
+                        Logger.getLogger(Node.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        };
+        t.start();
+        
+        
         while (true) {
-            Socket connection = serverNode.accept();
+            //Acepts Sensor connection
+            Socket sensorConnector = serverNode.accept();
             System.out.println("Sensor connected to Node: " + zone);
 
-            Thread ts = new Node(connection, sensorOutput, nodeGestOutput);
+            Thread ts = new Node(sensorConnector, nodeGestOutput);
             ts.start();
         }
     }
     
+    //THREAD THAT LISTENS/SENDS MESSAGES FROM/TO SENSOR
     @Override
     public void run(){
         try {
-            sensorOutput = new PrintStream(nodeGestConnector.getOutputStream());
-            sensorInput = new BufferedReader(new InputStreamReader(nodeGestConnector.getInputStream()));
+            sensorOutput = new PrintStream(sensorConnector.getOutputStream());
+            sensorInput = new BufferedReader(new InputStreamReader(sensorConnector.getInputStream()));
             
             String type = sensorInput.readLine();
             
@@ -84,8 +108,7 @@ public class Node extends Thread{
                 //TODO: decidir que codgo de mensagem vai passar ao NodeGest
                 System.out.println("Node: " + sensorData);
                 if(sensorData.startsWith("Node: "))
-                    //SENDS MESSAGES TO NODEGEST
-                    nodeGestOutput.println("Zone: " + zone + " :" + sensorData);
+                    nodeGestOutput.println("Zone: " + zone + " :" + sensorData); //SENDS MESSAGES TO NODEGEST
             }
         } catch (IOException ex) {
             Logger.getLogger(Node.class.getName()).log(Level.SEVERE, null, ex);
