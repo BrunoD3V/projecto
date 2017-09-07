@@ -63,17 +63,18 @@ public class NodeGest extends Thread{
     }
     
     public static void main(String[] args) throws IOException {
-        /*
-        IP = "193.137.107.8";
+        
+        IP = "192.168.1.5";
         outputPort = "1111";
         inputPort = "1112";
         sector = "1";
-        */
+        
+        /*
         IP = args[0];
         inputPort = args[1];
         outputPort = args[2];
         sector = args[3];
-        
+        */
         nodeList = new Vector<Node>();
         
         Socket managerConnection = new Socket(IP, Integer.parseInt(outputPort));
@@ -137,36 +138,44 @@ public class NodeGest extends Thread{
                 }
                 //RESPONSES TO DATA REQUESTS
                 if(nodeData.startsWith("Response")){
-                    nodeData = nodeData.substring(8);
+                    System.out.println("nodeData 1: " + nodeData);
+                    nodeData = nodeData.substring(9);
                     if(nodeData.startsWith("SetInterval")){
                         nodeData = "Response " + nodeData;
                         managerOutput.println(nodeData);
                     }
                     //RESPONSE FORMAT: Response S1 Temperature: 25
                     if(nodeData.startsWith("S")){
-                        nodeData = nodeData.substring(8);
-                        char opt =nodeData.charAt(13);
+                        System.out.println("nodeData 2: " + nodeData);
+                        //nodeData = nodeData.substring(8);
+                        String opt = nodeData.substring(3,4);
+                        System.out.println("OPT: " + opt);
                         switch(opt){
-                            case 'T':
-                                float temp = Float.parseFloat(nodeData.substring(13));
+                            case "T":
+                                float temp = Float.parseFloat(nodeData.substring(16));
                                 if(outOfBoundary(TempMin,TempMax,temp))
                                     sendAlert(nodeData);
+                                nodeData = "Response " + nodeData;
+                                managerOutput.println(nodeData);
                                 break;
-                            case 'R':
-                                float radi = Float.parseFloat(nodeData.substring(13));
+                            case "R":
+                                float radi = Float.parseFloat(nodeData.substring(16));
                                 if(outOfBoundary(RadiMin,RadiMax,radi))
                                     sendAlert(nodeData);
+                                nodeData = "Response " + nodeData;
+                                managerOutput.println(nodeData);
                                 break;
-                            case 'H':
-                                float humi = Float.parseFloat(nodeData.substring(13));
+                            case "H":
+                                float humi = Float.parseFloat(nodeData.substring(16));
                                 if(outOfBoundary(HumiMin,HumiMax,humi))
                                     sendAlert(nodeData);
+                                nodeData = "Response " + nodeData;
+                                managerOutput.println(nodeData);
                                 break;
                             default: 
                                 System.out.println("Bad Response");
                         }
-                        nodeData = "Response " + nodeData;
-                        managerOutput.println(nodeData);
+                        
                     }
                 }
             }

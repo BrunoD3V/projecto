@@ -1,8 +1,7 @@
 package manager;
 
-import java.awt.AWTException;
-import java.awt.Robot;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
@@ -27,11 +26,10 @@ public class Manager extends Thread{
     private static String statusSector1 = "No Problems Detected.";
     private static String statusSector2 = "No Problems Detected.";
     
-    
     //Constructor
     private Manager(BufferedReader nodeGestInput, PrintStream nodeGestOutput){
-        this.nodeGestInput = nodeGestInput;
-        this.nodeGestOutput = nodeGestOutput;
+        Manager.nodeGestInput = nodeGestInput;
+        Manager.nodeGestOutput = nodeGestOutput;
     }
    
     public static void main(String[] args) {
@@ -86,29 +84,31 @@ public class Manager extends Thread{
                             default:
                                 System.out.println("Please insert a valid option.");
                         }
-
                     } catch (IOException ex) {
                         Logger.getLogger(Manager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
         };
-        consoleThread.start();
         
         try{
             server = new ServerSocket(1111);
             nodeGestList = new Vector<NodeGest>();
-            
+            //Runtime.getRuntime().exec("cmd /c sector1.bat", null, new File("C:\\"));
             while(true){
                 nodeGestConnector = server.accept();
                 System.out.println("Manager is Running...");
+                consoleThread.start();
                 
                 Thread t = new Manager(nodeGestInput,nodeGestOutput);
                 t.start();
             }
-       } catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Manager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        
     }
     
     //THREAD LISTENS AND SENDS MESSAGES FROM/TO NODEGEST
@@ -130,7 +130,6 @@ public class Manager extends Thread{
                     String sectorNumber = nodeGestData.substring(7);
                     NodeGest ng = new NodeGest(sectorNumber, nodeGestOutput);
                     nodeGestList.add(ng);
-                    System.out.println("TESTE SECTOR: " + nodeGestData);
                 }
                 //RESPONSES TO DATA REQUESTS
                 if(nodeGestData.startsWith("Response")){

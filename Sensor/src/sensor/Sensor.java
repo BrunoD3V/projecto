@@ -86,10 +86,15 @@ public class Sensor extends Thread {
     }
     
     public static void main(String[] args) throws IOException {
-        
+        /*
         IP = args[0];
         PORT = args[1];
         TYPE = args[2];
+        */
+        
+        IP = "192.168.1.5";
+        PORT = "1113";
+        TYPE = "Temp";
         
         Socket nodeConnector = new Socket(IP, Integer.parseInt(PORT));
         System.out.println("Sensor type: " + TYPE + " ON!");
@@ -144,13 +149,14 @@ public class Sensor extends Thread {
     public void RequestSensorData(String opt) {
         float temperature, radiation, humidity;
         String sensorNumber = opt.substring(0,2);
-        
+        opt = opt.substring(3);
         switch (opt) {
             case "Temp": 
                 if(TYPE.equalsIgnoreCase("Temp")){
                     temperature = getTemp(minT,maxT);
                     //RESPONSE FORMAT: Response S1 Temperature: 25
                     nodeOutput.println("Response " + sensorNumber + " Temperature: " + temperature);
+                    System.out.println("RESPONDED");
                 }
                 break;
             case "Humi": 
