@@ -63,18 +63,18 @@ public class NodeGest extends Thread{
     }
     
     public static void main(String[] args) throws IOException {
-        
-        IP = "192.168.1.5";
+        /*
+        IP = "193.137.107.64";
         outputPort = "1111";
         inputPort = "1112";
         sector = "1";
+        */
         
-        /*
         IP = args[0];
         inputPort = args[1];
         outputPort = args[2];
         sector = args[3];
-        */
+        
         nodeList = new Vector<Node>();
         
         Socket managerConnection = new Socket(IP, Integer.parseInt(outputPort));
@@ -138,7 +138,6 @@ public class NodeGest extends Thread{
                 }
                 //RESPONSES TO DATA REQUESTS
                 if(nodeData.startsWith("Response")){
-                    System.out.println("nodeData 1: " + nodeData);
                     nodeData = nodeData.substring(9);
                     if(nodeData.startsWith("SetInterval")){
                         nodeData = "Response " + nodeData;
@@ -146,8 +145,7 @@ public class NodeGest extends Thread{
                     }
                     //RESPONSE FORMAT: Response S1 Temperature: 25
                     if(nodeData.startsWith("S")){
-                        System.out.println("nodeData 2: " + nodeData);
-                        //nodeData = nodeData.substring(8);
+                        
                         String opt = nodeData.substring(3,4);
                         System.out.println("OPT: " + opt);
                         switch(opt){

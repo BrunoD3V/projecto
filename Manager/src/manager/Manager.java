@@ -44,7 +44,7 @@ public class Manager extends Thread{
                     System.out.println("Set Interval (2)");
                     try {
                         System.out.println("Option: ");
-
+                        consoleInput = "";
                         consoleInput = consoleReader.readLine();
 
                         switch(consoleInput){
@@ -60,12 +60,17 @@ public class Manager extends Thread{
                                 System.out.println("Sensor: ");
                                 consoleInput = consoleReader.readLine();
                                 request = request + "S" + consoleInput;
+                                
+                                System.out.println("RESQUEST: " + request);
                                 //Request
                                 requestData(request);
+                                request = "";
+                                System.out.println("AFTER " + request);
                                 break;
+                                
                             case "2":
                                 System.out.println("=========SET INTERVAL=========");
-                                String requestSet = "Request ";
+                                String requestSet = "Request SetInterval ";
                                 System.out.println("Sector:");
                                 consoleInput = consoleReader.readLine();
                                 requestSet = requestSet + "NG" + consoleInput + " ";
@@ -78,8 +83,11 @@ public class Manager extends Thread{
                                 System.out.println("Interval(minutes): ");
                                 consoleInput = consoleReader.readLine();
                                 requestSet = requestSet + "m" + consoleInput;
+                                System.out.println("RESQUEST: " + requestSet);
                                 //Request
                                 requestData(requestSet);
+                                requestSet = "";
+                                System.out.println("AFTER" + requestSet);
                                 break;
                             default:
                                 System.out.println("Please insert a valid option.");
@@ -94,7 +102,8 @@ public class Manager extends Thread{
         try{
             server = new ServerSocket(1111);
             nodeGestList = new Vector<NodeGest>();
-            //Runtime.getRuntime().exec("cmd /c sector1.bat", null, new File("C:\\"));
+            Runtime.getRuntime().exec("cmd /c sector1.bat", null, new File("C:\\"));
+            
             while(true){
                 nodeGestConnector = server.accept();
                 System.out.println("Manager is Running...");
@@ -106,9 +115,6 @@ public class Manager extends Thread{
         } catch (IOException ex) {
             Logger.getLogger(Manager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
     }
     
     //THREAD LISTENS AND SENDS MESSAGES FROM/TO NODEGEST
@@ -172,7 +178,4 @@ public class Manager extends Thread{
             }
         }
     }
-    
-    public static void limpatela() {	 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
- }
 }

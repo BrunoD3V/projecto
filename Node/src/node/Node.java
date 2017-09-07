@@ -36,17 +36,18 @@ public class Node extends Thread{
        
         sensorOutput = null;
         sensorInput = null;
-        /*
+        
         IP = args[0];
         inputPort = args[1];
         outputPort = args[2];
         zone = args[3];
-        */
-        IP = "192.168.1.5";
+        
+        /*
+        IP = "193.137.107.64";
         inputPort = "1113";
         outputPort = "1112";
         zone = "1";
-        
+        */
         Socket nodeGestConnection = new Socket(IP, Integer.parseInt(outputPort));
        
         final PrintStream nodeGestOutput = new PrintStream(nodeGestConnection.getOutputStream()); //Output NodeGest
@@ -100,6 +101,8 @@ public class Node extends Thread{
             String type = sensorInput.readLine();
             Sensor sensor = new Sensor(type, sensorOutput);
             sensorList.add(sensor);
+            String sensorID = "SensorID " + (sensorList.size());
+            sensorOutput.println(sensorID);
             
             //SEND MESSAGES TO THE SENSOR
             //sensorOutput.println("Request Temp");
@@ -108,17 +111,13 @@ public class Node extends Thread{
                 //RECEIVES MESSAGES FROM THE SENSOR
                 String sensorData = sensorInput.readLine();
                 if(sensorData.startsWith("Response")){
-                    System.out.println("sensorData 1: " + sensorData);
                     sensorData = sensorData.substring(9);
-                    System.out.println("sensorData 2: " + sensorData);
                     if(sensorData.startsWith("SetInterval")){
                         sensorData = "Response " + sensorData;
                         nodeGestOutput.println(sensorData);
                         System.out.println("Message Sent to NodeGest: " + sensorData);
                     }else if(sensorData.startsWith("S")){
-                        
                         sensorData = "Response " + sensorData;
-                        System.out.println("sensorData 3: " + sensorData);
                         nodeGestOutput.println(sensorData);
                     }
                 }
