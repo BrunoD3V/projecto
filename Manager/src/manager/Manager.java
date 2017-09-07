@@ -1,5 +1,7 @@
 package manager;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,13 +20,82 @@ public class Manager extends Thread{
     private static BufferedReader nodeGestInput = null;
     private static Vector<NodeGest> nodeGestList;
     
+    //CONSOLE INTERFACE VARIABLES
+    //Console Input Reader
+    private static BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+    private static String consoleInput;
+    private static String statusSector1 = "No Problems Detected.";
+    private static String statusSector2 = "No Problems Detected.";
+    
+    
+    //Constructor
     private Manager(BufferedReader nodeGestInput, PrintStream nodeGestOutput){
         this.nodeGestInput = nodeGestInput;
         this.nodeGestOutput = nodeGestOutput;
     }
    
     public static void main(String[] args) {
-       try{
+        Thread consoleThread = new Thread(){
+            @Override
+            public void run(){
+                while(true){
+                    System.out.println("=========MANAGER MENU=========");
+                    System.out.println("Sector 1: " + statusSector1);
+                    System.out.println("Sector 2: " + statusSector2);
+                    System.out.println("Request Data (1)");
+                    System.out.println("Set Interval (2)");
+                    try {
+                        System.out.println("Option: ");
+
+                        consoleInput = consoleReader.readLine();
+
+                        switch(consoleInput){
+                            case "1":
+                                System.out.println("=========REQUEST DATA=========");
+                                String request = "Request ";
+                                System.out.println("Sector:");
+                                consoleInput = consoleReader.readLine();
+                                request = request + "NG" + consoleInput + " ";
+                                System.out.println("Zone: ");
+                                consoleInput = consoleReader.readLine();
+                                request = request + "N" + consoleInput + " ";
+                                System.out.println("Sensor: ");
+                                consoleInput = consoleReader.readLine();
+                                request = request + "S" + consoleInput;
+                                //Request
+                                requestData(request);
+                                break;
+                            case "2":
+                                System.out.println("=========SET INTERVAL=========");
+                                String requestSet = "Request ";
+                                System.out.println("Sector:");
+                                consoleInput = consoleReader.readLine();
+                                requestSet = requestSet + "NG" + consoleInput + " ";
+                                System.out.println("Zone: ");
+                                consoleInput = consoleReader.readLine();
+                                requestSet = requestSet + "N" + consoleInput + " ";
+                                System.out.println("Sensor: ");
+                                consoleInput = consoleReader.readLine();
+                                requestSet = requestSet + "S" + consoleInput + " ";
+                                System.out.println("Interval(minutes): ");
+                                consoleInput = consoleReader.readLine();
+                                requestSet = requestSet + "m" + consoleInput;
+                                //Request
+                                requestData(requestSet);
+                                break;
+                            default:
+                                System.out.println("Please insert a valid option.");
+                        }
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(Manager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        };
+        consoleThread.start();
+        
+        try{
             server = new ServerSocket(1111);
             nodeGestList = new Vector<NodeGest>();
             
@@ -49,9 +120,7 @@ public class Manager extends Thread{
             
             nodeGestOutput = new PrintStream(nodeGestConnector.getOutputStream());
             nodeGestInput = new BufferedReader(new InputStreamReader(nodeGestConnector.getInputStream()));
-            //TEST REQUEST
-            //nodeGestOutput.println("Request N1 S1");
-            
+
             //Waits messages from nodeGest.
             while(true){
                 String nodeGestData = nodeGestInput.readLine();
@@ -65,10 +134,10 @@ public class Manager extends Thread{
                 }
                 //RESPONSES TO DATA REQUESTS
                 if(nodeGestData.startsWith("Response")){
-                    //TODO TODO TODO TODO TODO TODO
+                    System.out.println(nodeGestData);
                 }
-                if(nodeGestData.startsWith("Alert")){
-                    //TODO TODO TODO TODO TODO TODO
+                if(nodeGestData.startsWith("ALERT")){
+                    System.out.println(nodeGestData);
                 }
             }    
         } catch (IOException ex) {
@@ -76,7 +145,7 @@ public class Manager extends Thread{
         }
     }
     
-    public void requestData(String request){
+    public static void requestData(String request){
         System.out.println("Request: " + request);
         
         if(nodeGestOutput != null){
@@ -104,4 +173,7 @@ public class Manager extends Thread{
             }
         }
     }
+    
+    public static void limpatela() {	 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+ }
 }

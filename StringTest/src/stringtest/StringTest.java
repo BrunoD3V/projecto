@@ -5,18 +5,22 @@
  */
 package stringtest;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 /**
  *
  * @author bruno
  */
 public class StringTest {
 
-    public static void main(String[] args) {
-        String request = "SetInterval m2";
-        request = request.substring(12);
-        System.out.println(request);
-        request = request.substring(1,2);
-        System.out.println(request);
+    public static void main(String[] args) throws IOException {
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Write Something: ");
+        String request = br.readLine();
+        System.out.println("You wrote: " + request);
        
        
        

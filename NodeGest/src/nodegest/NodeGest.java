@@ -63,11 +63,16 @@ public class NodeGest extends Thread{
     }
     
     public static void main(String[] args) throws IOException {
-        
+        /*
         IP = "193.137.107.8";
         outputPort = "1111";
         inputPort = "1112";
         sector = "1";
+        */
+        IP = args[0];
+        inputPort = args[1];
+        outputPort = args[2];
+        sector = args[3];
         
         nodeList = new Vector<Node>();
         
@@ -83,13 +88,14 @@ public class NodeGest extends Thread{
             public void run(){
                 try {
                     while(true){
-                       String managerData = managerInput.readLine();
+                        String managerData = managerInput.readLine();
                         System.out.println("Manager Data: " + managerData);
 
                         //HANDLES RECEIVED MESSAGES
                         if(managerData.startsWith("Request") || managerData.startsWith("SetInterval")){
                             requestData(managerData);
-                        } 
+                            System.out.println("REQUESTED!");
+                        }
                     }
                 } catch (IOException ex) {
                     System.out.println("ERROR: the Thread that handles Manager Channels failed with the following error: " + ex.getMessage());
@@ -131,12 +137,38 @@ public class NodeGest extends Thread{
                 }
                 //RESPONSES TO DATA REQUESTS
                 if(nodeData.startsWith("Response")){
-                    //TODO TODO TODO TODO TODO TODO
+                    nodeData = nodeData.substring(8);
+                    if(nodeData.startsWith("SetInterval")){
+                        nodeData = "Response " + nodeData;
+                        managerOutput.println(nodeData);
+                    }
+                    //RESPONSE FORMAT: Response S1 Temperature: 25
+                    if(nodeData.startsWith("S")){
+                        nodeData = nodeData.substring(8);
+                        char opt =nodeData.charAt(13);
+                        switch(opt){
+                            case 'T':
+                                float temp = Float.parseFloat(nodeData.substring(13));
+                                if(outOfBoundary(TempMin,TempMax,temp))
+                                    sendAlert(nodeData);
+                                break;
+                            case 'R':
+                                float radi = Float.parseFloat(nodeData.substring(13));
+                                if(outOfBoundary(RadiMin,RadiMax,radi))
+                                    sendAlert(nodeData);
+                                break;
+                            case 'H':
+                                float humi = Float.parseFloat(nodeData.substring(13));
+                                if(outOfBoundary(HumiMin,HumiMax,humi))
+                                    sendAlert(nodeData);
+                                break;
+                            default: 
+                                System.out.println("Bad Response");
+                        }
+                        nodeData = "Response " + nodeData;
+                        managerOutput.println(nodeData);
+                    }
                 }
-                if(nodeData.startsWith("Alert")){
-                    //TODO TODO TODO TODO TODO TODO
-                }
-       
             }
         } catch (IOException ex) {
             Logger.getLogger(NodeGest.class.getName()).log(Level.SEVERE, null, ex);
@@ -152,7 +184,8 @@ public class NodeGest extends Thread{
                 int element = Integer.parseInt(request.substring(1,2));
                 request = request.substring(3);
                 request = "Request " + request;
-                nodeList.elementAt(element-1).output.println(request);
+                if(nodeList.size() > 0 )
+                    nodeList.elementAt(element-1).output.println(request);
                 System.out.println("Request para o Node: \n" + request);
             }
         }
@@ -163,9 +196,20 @@ public class NodeGest extends Thread{
                 int element = Integer.parseInt(request.substring(1,2));
                 request = request.substring(3);
                 request = "SetInterval " + request;
-                nodeList.elementAt(element-1).output.println(request);
+                if(nodeList.size() > 0 )
+                    nodeList.elementAt(element-1).output.println(request);
                 System.out.println("SetInterval para o Node: \n" + request);
             }
         }
+    }
+    
+    public static boolean outOfBoundary(float min, float max, float value){
+        if(value < min || value > max)
+            return true;
+        return false;
+    }
+    
+    public static void sendAlert(String alert){
+        managerOutput.println("ALERT " + alert);
     }
 }

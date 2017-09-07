@@ -15,15 +15,15 @@ import java.util.logging.Logger;
  */
 public class Node extends Thread{
 
-    private Socket nodeGestConnector = null;
+    private final Socket nodeGestConnector = null;
     private Socket sensorConnector = null;
     private static String IP;
     private static String inputPort;
     private static String outputPort;
     private static String zone;
     
-    private static Vector<Sensor> sensorList = new Vector();   
-    private PrintStream nodeGestOutput;             
+    private static final Vector<Sensor> sensorList = new Vector();   
+    private final PrintStream nodeGestOutput;             
     private static PrintStream sensorOutput;         
     private static BufferedReader sensorInput;
     
@@ -37,11 +37,16 @@ public class Node extends Thread{
         sensorOutput = null;
         sensorInput = null;
         
+        IP = args[0];
+        inputPort = args[1];
+        outputPort = args[2];
+        zone = args[3];
+        /*
         IP = "193.137.107.8";
         inputPort = "1113";
         outputPort = "1112";
         zone = "1";
-        
+        */
         Socket nodeGestConnection = new Socket(IP, Integer.parseInt(outputPort));
        
         final PrintStream nodeGestOutput = new PrintStream(nodeGestConnection.getOutputStream()); //Output NodeGest
@@ -63,9 +68,10 @@ public class Node extends Thread{
                         String nodeGData = nodeGestInput.readLine();
                         System.out.println("NodeGestData: " + nodeGData);
                         
-                        //TODO TODO TODO TODO
-                        
-                        
+                        if(nodeGData.startsWith("Request") || nodeGData.startsWith("SetInterval")){
+                            requestData(nodeGData);
+                            System.out.println("REQUESTED!");
+                        }
                     } catch (IOException ex) {
                         Logger.getLogger(Node.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -73,7 +79,6 @@ public class Node extends Thread{
             }
         };
         t.start();
-        
         
         while (true) {
             //Acepts Sensor connection
@@ -97,33 +102,31 @@ public class Node extends Thread{
             sensorList.add(sensor);
             
             //SEND MESSAGES TO THE SENSOR
-            sensorOutput.println("Request Temp");
+            //sensorOutput.println("Request Temp");
             
             while(true){
                 //RECEIVES MESSAGES FROM THE SENSOR
                 String sensorData = sensorInput.readLine();
                 if(sensorData.startsWith("Response")){
                     sensorData = sensorData.substring(8);
-                    if(sensorData.startsWith("Interval")){
+                    if(sensorData.startsWith("SetInterval")){
                         sensorData = "Response " + sensorData;
                         nodeGestOutput.println(sensorData);
                         System.out.println("Message Sent to NodeGest: " + sensorData);
                     }
+                    
+                    if(sensorData.startsWith("S")){
+                        sensorData = "Response " + sensorData;
+                        nodeGestOutput.println(sensorData);
+                    }
                 }
-                
-                
-                /* ????? que está isto aqui a fazer?
-                System.out.println("Node: " + sensorData);
-                if(sensorData.startsWith("Node: "))
-                    nodeGestOutput.println("Zone: " + zone + " :" + sensorData); //SENDS MESSAGES TO NODEGEST
-                        */
             }
         } catch (IOException ex) {
             Logger.getLogger(Node.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void requestData(String request){
+    public static void requestData(String request){
         System.out.println("Request: " + request);
         
         if(sensorOutput != null){
@@ -133,8 +136,10 @@ public class Node extends Thread{
                 if(request.startsWith("S")){
                     int element = Integer.parseInt(request.substring(1,2));
                     String type = sensorList.elementAt(element-1).type;
-                    request = "Request " + type;
-                    sensorList.elementAt(element-1).output.println(request);
+                    //REQUEST FORMAT: Request S1 Temp
+                    request = "Request S"+ element + " " + type;
+                    if(sensorList.size() > 0 )
+                        sensorList.elementAt(element-1).output.println(request);
                     System.out.println("Request para o Sensor: \n" + request);
                 }
             }
@@ -143,9 +148,9 @@ public class Node extends Thread{
                 request = request.substring(12);
                 if(request.startsWith("S")){
                     int element = Integer.parseInt(request.substring(1,2));
-                    request = request.substring(3);
                     request = "SetInterval " + request;
-                    sensorList.elementAt(element-1).output.println(request);
+                    if(sensorList.size() > 0 )
+                        sensorList.elementAt(element-1).output.println(request);
                     System.out.println("SetInterval para o Sensor: \n" + request);
                 }
             }

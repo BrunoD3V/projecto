@@ -87,9 +87,9 @@ public class Sensor extends Thread {
     
     public static void main(String[] args) throws IOException {
         
-        IP = "193.137.107.8";
-        PORT = "1113";
-        TYPE = "Temp";
+        IP = args[0];
+        PORT = args[1];
+        TYPE = args[2];
         
         Socket nodeConnector = new Socket(IP, Integer.parseInt(PORT));
         System.out.println("Sensor type: " + TYPE + " ON!");
@@ -116,16 +116,19 @@ public class Sensor extends Thread {
                                 RequestSensorData(Sensor.TYPE);
                             }
                         },1000*60*interval,1000*60*interval); 
+                        
+                        //REQUEST FORMAT: Request S1 Temp
                         if(nodeData.startsWith("Request")){
                             nodeData = nodeData.substring(8);
                             RequestSensorData(nodeData);
                         }
-                        //Full SetInterval Format e.g.: SetInterval m2
+                        //Full SetInterval Format e.g.: SetInterval S1 m2
                         if(nodeData.startsWith("SetInterval")){
-                            nodeData = nodeData.substring(12);
+                            String message = nodeData;
+                            nodeData = nodeData.substring(15);
                             if(nodeData.startsWith("m")){
                                 setInterval(Integer.parseInt(nodeData.substring(1,2)));
-                                nodeOutput.println("Response Interval set to: " + nodeData.substring(1,2));
+                                nodeOutput.println("Response " + message);
                                 System.out.println("Interval set to: " + nodeData.substring(1,2));
                             }
                         }
@@ -140,24 +143,26 @@ public class Sensor extends Thread {
     
     public void RequestSensorData(String opt) {
         float temperature, radiation, humidity;
-
+        String sensorNumber = opt.substring(0,2);
+        
         switch (opt) {
             case "Temp": 
                 if(TYPE.equalsIgnoreCase("Temp")){
                     temperature = getTemp(minT,maxT);
-                    nodeOutput.println("Response Temperature: " + temperature);
+                    //RESPONSE FORMAT: Response S1 Temperature: 25
+                    nodeOutput.println("Response " + sensorNumber + " Temperature: " + temperature);
                 }
                 break;
             case "Humi": 
                if(TYPE.equalsIgnoreCase("Humi")){
                     humidity = getHumidity(minHu, maxHu);
-                    nodeOutput.println("Response Humidity: " + humidity);
+                    nodeOutput.println("Response " + sensorNumber + " Humidity: " + humidity);
                 }
                 break;
             case "Radi": 
                 if(TYPE.equalsIgnoreCase("Radi")){
                     radiation = getSolarRad(minSRad,maxSRad);
-                    nodeOutput.println("Response Radiation: " + radiation);
+                    nodeOutput.println("Response " + sensorNumber + " Radiation: " + radiation);
                 }
                 break;
             default:
