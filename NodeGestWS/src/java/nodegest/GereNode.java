@@ -57,7 +57,7 @@ public class GereNode {
                 Node node = new Node();
                 
                 node.setZona(rSet.getString("zona"));
-                node.setIdNode(rSet.getInt("id"));
+               
                 
                 
                 lista.add(node);
@@ -85,7 +85,7 @@ public class GereNode {
                 node = new Node();
                 
                 node.setZona(rSet.getString("zona"));
-                node.setIdNode(rSet.getInt("id"));
+                node.setNodeGestSector(rSet.getString("id"));
                
             }else{
                 return node;
@@ -98,6 +98,11 @@ public class GereNode {
         
         return node;
     } 
+    //METODOS PARA INTRODUZIR NODES E SENSORES 
+    public boolean inserirSensor(){
+        return true;
+    }
+    
     //PEDIDOS
     public String pedirDadosSensor (String sector, String zona){
         return "";

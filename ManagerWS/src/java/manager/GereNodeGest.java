@@ -96,8 +96,7 @@ public class GereNodeGest {
     }
     
     //METODOS PARA INTRODUZIR NODES E SENSORES 
-    
-    public boolean inserirNode(){
+    public boolean inserirNode(int idNode, String zona){
         return true;
     }
     

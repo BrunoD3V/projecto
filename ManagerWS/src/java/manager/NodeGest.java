@@ -11,25 +11,15 @@ package manager;
  */
 public class NodeGest {
     
-    private int idNodeGest;
     private String sector;
 
     //Construtor
     public NodeGest(int idNodeGest, String sector) {
-        this.idNodeGest = idNodeGest;
         this.sector = sector;
     }
     
     public NodeGest(){
         this.sector = "";
-    }
-
-    public int getIdNodeGest() {
-        return idNodeGest;
-    }
-
-    public void setIdNodeGest(int idNodeGest) {
-        this.idNodeGest = idNodeGest;
     }
     
     public String getSector() {
