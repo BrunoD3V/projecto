@@ -12,63 +12,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.xml.soap.*;
+import javax.xml.ws.WebServiceRef;
 /**
  *
  * @author bruno
  */
 public class GereManager {
-    SoapHandler soapHandler;
-    
-    
+    @WebServiceRef(wsdlLocation="http://localhost:8080/ManagerWS/ManagerWS?WSDL")
+    static ManagerWS service;
     public boolean inserirNodeGest(String sector){
         //SOAP
-        /*
-        soapHandler = new SoapHandler("inserirNodeGest");
-        SoapObject inserirNodeGest = new SoapObject(soapHandler.getNAMESPACE(),soapHandler.getMethodName());
-        
-        SoapObject soapNodeGest = new SoapObject(soapHandler.getNAMESPACE(), "");
-        
-        //EXEMPLO
-        soapHandler = new SoapHandler("inserirCliente");
-        SoapObject inserirCliente = new SoapObject(soapHandler.getNAMESPACE(),soapHandler.getMethodName());
-
-        SoapObject soapCliente = new SoapObject(soapHandler.getNAMESPACE(),"cliente");
-
-        soapCliente.addProperty("codigoPostal", cliente.getCodigoPostal());
-        soapCliente.addProperty("contacto", cliente.getContacto());
-        soapCliente.addProperty("email", cliente.getEmail());
-        soapCliente.addProperty("id", cliente.getId());
-        soapCliente.addProperty("morada", cliente.getMorada());
-        soapCliente.addProperty("nif", cliente.getMorada());
-        soapCliente.addProperty("nome", cliente.getNome());
-        soapCliente.addProperty("tipo", cliente.getTipo());
-
-        inserirCliente.addSoapObject(soapCliente);
-
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-
-        envelope.setOutputSoapObject(inserirCliente);
-
-        envelope.implicitTypes = true;
-
-        HttpTransportSE http = new HttpTransportSE(soapHandler.getURL());
-
-        try {
-            http.call(soapHandler.getSoapAction(), envelope);
-
-            SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
-
-            return Boolean.parseBoolean(response.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-            return false;
-        }
-        */
-       
         return true;
     }
     

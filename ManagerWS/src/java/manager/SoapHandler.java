@@ -18,8 +18,8 @@ public class SoapHandler {
     private static String SERVER_IP = "192.168.1.5";
 
     public SoapHandler(String methodName){
-        NAMESPACE = "http://manager/";
-        URL = "http://"+SERVER_IP+":8080/ManagerWS/ManagerWS";
+        NAMESPACE = "http://nodegest/";
+        URL = "http://"+SERVER_IP+":8080/NodeGestWS/NodeGestWS";
         METHOD_NAME = methodName;
         SOAP_ACTION = NAMESPACE + METHOD_NAME;
     }
