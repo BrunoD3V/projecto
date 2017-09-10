@@ -40,10 +40,10 @@ public class GereNodeGest {
             
             connection.close();
             
-        } catch (SQLException ex) {
-            Logger.getLogger(GereNodeGest.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+            } catch (SQLException ex) {
+                Logger.getLogger(GereNodeGest.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
             
         }
         
@@ -113,5 +113,4 @@ public class GereNodeGest {
         
         return nodegest;
     }
-    
 }
