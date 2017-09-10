@@ -28,19 +28,18 @@
 
 <xs:element name="pesquisarNodeGestResponse" type="tns:pesquisarNodeGestResponse"/>
 
-<xs:complexType name="listarNodeGest">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="listarNodeGestResponse">
+<xs:complexType name="definirIntervaloSensor">
 <xs:sequence>
-<xs:element name="return" type="tns:nodeGest" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="sector" type="xs:string" minOccurs="0"/>
+<xs:element name="zona" type="xs:string" minOccurs="0"/>
+<xs:element name="tipo" type="xs:string" minOccurs="0"/>
+<xs:element name="valor" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="nodeGest">
+<xs:complexType name="definirIntervaloSensorResponse">
 <xs:sequence>
-<xs:element name="sector" type="xs:string" minOccurs="0"/>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -56,18 +55,19 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="definirIntervaloSensor">
+<xs:complexType name="nodeGest">
 <xs:sequence>
 <xs:element name="sector" type="xs:string" minOccurs="0"/>
-<xs:element name="zona" type="xs:string" minOccurs="0"/>
-<xs:element name="tipo" type="xs:string" minOccurs="0"/>
-<xs:element name="valor" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="definirIntervaloSensorResponse">
+<xs:complexType name="listarNodeGest">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="listarNodeGestResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
+<xs:element name="return" type="tns:nodeGest" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 

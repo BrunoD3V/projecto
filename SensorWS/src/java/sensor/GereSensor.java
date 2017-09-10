@@ -76,8 +76,24 @@ public class GereSensor {
     //PEDIDOS
     public String pedirDadosSensor (String sector, String zona, String tipo){
         //SOAP
-        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
-        return "";
+        String result = "";
+        if(tipo.equalsIgnoreCase("temp")){
+            float temperatura = getTemp();
+            result = "Resposta Sector " + sector + " Zona " + zona + "Tipo " + tipo + "Temperatura = " + temperatura;   
+        }
+        if(tipo.equalsIgnoreCase("radi")){
+            float radi = getSolarRad();
+            result = "Resposta Sector " + sector + " Zona " + zona + "Tipo " + tipo + "Radiação = " + radi;
+        }
+        if(tipo.equalsIgnoreCase("humi")){
+            float humi = getHumidity();
+            result = "Resposta Sector " + sector + " Zona " + zona + "Tipo " + tipo + "Humidade = " + humi;
+        }
+        return result;
+    }
+    
+    public void respostaPedidoSensor(){
+        
     }
     
     //DEVERÁ DEFINIR O INTERVALO DE TEMPO QUE RECEBE (LÊ) DADOS DE TODA A ZONA (TODOS OS SENSORES)
@@ -88,18 +104,18 @@ public class GereSensor {
     }
     
     //GERA VALORES ALEATÓRIOS PARA CADA TIPO DE SENSOR
-     private static float getTemp( float minT, float maxT ){
+     private static float getTemp(){
         Random rand = new Random();
-        return rand.nextFloat() * (maxT - minT) + minT;
+        return rand.nextFloat() * (45.0f - (-10.0f)) + (-10.0f);
     }
 
-    private static float getHumidity ( float minHu, float maxHu ){
+    private static float getHumidity (){
         Random rand = new Random();
-        return rand.nextFloat() * (maxHu - minHu) - minHu;
+        return rand.nextFloat() * (100.0f - 0.0f) - 0.0f;
     }
 
-    private static float getSolarRad ( float minSRad, float maxSRad ){
+    private static float getSolarRad (){
         Random rand = new Random();
-        return rand.nextFloat() * (maxSRad - minSRad) - minSRad;
+        return rand.nextFloat() * (4.0f - 0.3f) - 0.3f;
     }
 }

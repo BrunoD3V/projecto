@@ -19,8 +19,7 @@ import javax.xml.ws.WebServiceRef;
  * @author bruno
  */
 public class GereManager {
-    @WebServiceRef(wsdlLocation="http://localhost:8080/ManagerWS/ManagerWS?WSDL")
-    static ManagerWS service;
+    
     public boolean inserirNodeGest(String sector){
         //SOAP
         return true;

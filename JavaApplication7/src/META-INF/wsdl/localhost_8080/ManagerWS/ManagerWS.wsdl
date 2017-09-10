@@ -4,11 +4,11 @@
 <xsd:import namespace="http://manager/" schemaLocation="http://localhost:8080/ManagerWS/ManagerWS?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="listarNodeGest">
-<part name="parameters" element="tns:listarNodeGest"/>
+<message name="definirIntervaloSensor">
+<part name="parameters" element="tns:definirIntervaloSensor"/>
 </message>
-<message name="listarNodeGestResponse">
-<part name="parameters" element="tns:listarNodeGestResponse"/>
+<message name="definirIntervaloSensorResponse">
+<part name="parameters" element="tns:definirIntervaloSensorResponse"/>
 </message>
 <message name="pesquisarNodeGest">
 <part name="parameters" element="tns:pesquisarNodeGest"/>
@@ -16,11 +16,11 @@
 <message name="pesquisarNodeGestResponse">
 <part name="parameters" element="tns:pesquisarNodeGestResponse"/>
 </message>
-<message name="definirIntervaloSensor">
-<part name="parameters" element="tns:definirIntervaloSensor"/>
+<message name="inserirNodeGest">
+<part name="parameters" element="tns:inserirNodeGest"/>
 </message>
-<message name="definirIntervaloSensorResponse">
-<part name="parameters" element="tns:definirIntervaloSensorResponse"/>
+<message name="inserirNodeGestResponse">
+<part name="parameters" element="tns:inserirNodeGestResponse"/>
 </message>
 <message name="inserirNode">
 <part name="parameters" element="tns:inserirNode"/>
@@ -28,11 +28,11 @@
 <message name="inserirNodeResponse">
 <part name="parameters" element="tns:inserirNodeResponse"/>
 </message>
-<message name="inserirNodeGest">
-<part name="parameters" element="tns:inserirNodeGest"/>
+<message name="inserirSensor">
+<part name="parameters" element="tns:inserirSensor"/>
 </message>
-<message name="inserirNodeGestResponse">
-<part name="parameters" element="tns:inserirNodeGestResponse"/>
+<message name="inserirSensorResponse">
+<part name="parameters" element="tns:inserirSensorResponse"/>
 </message>
 <message name="pedirDadosSensor">
 <part name="parameters" element="tns:pedirDadosSensor"/>
@@ -40,45 +40,45 @@
 <message name="pedirDadosSensorResponse">
 <part name="parameters" element="tns:pedirDadosSensorResponse"/>
 </message>
-<message name="inserirSensor">
-<part name="parameters" element="tns:inserirSensor"/>
+<message name="listarNodeGest">
+<part name="parameters" element="tns:listarNodeGest"/>
 </message>
-<message name="inserirSensorResponse">
-<part name="parameters" element="tns:inserirSensorResponse"/>
+<message name="listarNodeGestResponse">
+<part name="parameters" element="tns:listarNodeGestResponse"/>
 </message>
 <portType name="ManagerWS">
-<operation name="listarNodeGest">
-<input wsam:Action="http://manager/ManagerWS/listarNodeGestRequest" message="tns:listarNodeGest"/>
-<output wsam:Action="http://manager/ManagerWS/listarNodeGestResponse" message="tns:listarNodeGestResponse"/>
+<operation name="definirIntervaloSensor">
+<input wsam:Action="http://manager/ManagerWS/definirIntervaloSensorRequest" message="tns:definirIntervaloSensor"/>
+<output wsam:Action="http://manager/ManagerWS/definirIntervaloSensorResponse" message="tns:definirIntervaloSensorResponse"/>
 </operation>
 <operation name="pesquisarNodeGest">
 <input wsam:Action="http://manager/ManagerWS/pesquisarNodeGestRequest" message="tns:pesquisarNodeGest"/>
 <output wsam:Action="http://manager/ManagerWS/pesquisarNodeGestResponse" message="tns:pesquisarNodeGestResponse"/>
 </operation>
-<operation name="definirIntervaloSensor">
-<input wsam:Action="http://manager/ManagerWS/definirIntervaloSensorRequest" message="tns:definirIntervaloSensor"/>
-<output wsam:Action="http://manager/ManagerWS/definirIntervaloSensorResponse" message="tns:definirIntervaloSensorResponse"/>
+<operation name="inserirNodeGest">
+<input wsam:Action="http://manager/ManagerWS/inserirNodeGestRequest" message="tns:inserirNodeGest"/>
+<output wsam:Action="http://manager/ManagerWS/inserirNodeGestResponse" message="tns:inserirNodeGestResponse"/>
 </operation>
 <operation name="inserirNode">
 <input wsam:Action="http://manager/ManagerWS/inserirNodeRequest" message="tns:inserirNode"/>
 <output wsam:Action="http://manager/ManagerWS/inserirNodeResponse" message="tns:inserirNodeResponse"/>
 </operation>
-<operation name="inserirNodeGest">
-<input wsam:Action="http://manager/ManagerWS/inserirNodeGestRequest" message="tns:inserirNodeGest"/>
-<output wsam:Action="http://manager/ManagerWS/inserirNodeGestResponse" message="tns:inserirNodeGestResponse"/>
+<operation name="inserirSensor">
+<input wsam:Action="http://manager/ManagerWS/inserirSensorRequest" message="tns:inserirSensor"/>
+<output wsam:Action="http://manager/ManagerWS/inserirSensorResponse" message="tns:inserirSensorResponse"/>
 </operation>
 <operation name="pedirDadosSensor">
 <input wsam:Action="http://manager/ManagerWS/pedirDadosSensorRequest" message="tns:pedirDadosSensor"/>
 <output wsam:Action="http://manager/ManagerWS/pedirDadosSensorResponse" message="tns:pedirDadosSensorResponse"/>
 </operation>
-<operation name="inserirSensor">
-<input wsam:Action="http://manager/ManagerWS/inserirSensorRequest" message="tns:inserirSensor"/>
-<output wsam:Action="http://manager/ManagerWS/inserirSensorResponse" message="tns:inserirSensorResponse"/>
+<operation name="listarNodeGest">
+<input wsam:Action="http://manager/ManagerWS/listarNodeGestRequest" message="tns:listarNodeGest"/>
+<output wsam:Action="http://manager/ManagerWS/listarNodeGestResponse" message="tns:listarNodeGestResponse"/>
 </operation>
 </portType>
 <binding name="ManagerWSPortBinding" type="tns:ManagerWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="listarNodeGest">
+<operation name="definirIntervaloSensor">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -96,7 +96,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="definirIntervaloSensor">
+<operation name="inserirNodeGest">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -114,7 +114,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="inserirNodeGest">
+<operation name="inserirSensor">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -132,7 +132,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="inserirSensor">
+<operation name="listarNodeGest">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
