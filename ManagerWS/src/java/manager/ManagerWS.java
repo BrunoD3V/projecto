@@ -24,6 +24,24 @@ public class ManagerWS {
         return DB.inserirNodeGest(sector);
     }
     
+    @WebMethod(operationName = "inserirNode")
+    public Boolean inserirNode(@WebParam(name = "nodeGestSector") String nodeGestSector,
+            @WebParam(name = "zona") String zona)
+    {
+        GereNodeGest DB = new GereNodeGest();
+        return DB.inserirNode(nodeGestSector,zona);
+    }
+    
+    @WebMethod(operationName = "inserirSensor")
+    public Boolean inserirSensor(@WebParam(name = "idNode") String idNode,
+            @WebParam(name = "intervalo") int intervalo,
+            @WebParam(name = "tipo") String tipo)
+    {
+        GereNodeGest DB = new GereNodeGest();
+        return DB.inserirSensor(idNode,intervalo,tipo);
+    }
+    
+    //TALVEZ NAO TENHA UTILIDADE
     @WebMethod(operationName = "listarNodeGest")
     public ArrayList<NodeGest> listarNodeGest(){
         GereNodeGest DB = new GereNodeGest();
@@ -43,11 +61,10 @@ public class ManagerWS {
         return DB.pedirDadosSensor(sector,zona);
     }
     
-    @WebMethod (operationName = "definirIntervalo")
-    public String definirIntervalo (@WebParam(name = "sector") String sector,
+    @WebMethod (operationName = "definirIntervaloSensor")
+    public String definirIntervaloSensor (@WebParam(name = "sector") String sector,
             @WebParam(name = "zona") String zona){
         GereNodeGest DB = new GereNodeGest();
-        return DB.definirIntervalo(sector,zona);
-    }
-            
+        return DB.definirIntervaloSensor(sector,zona);
+    }           
 }

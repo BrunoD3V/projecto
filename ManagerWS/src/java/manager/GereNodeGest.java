@@ -96,21 +96,25 @@ public class GereNodeGest {
     }
     
     //METODOS PARA INTRODUZIR NODES E SENSORES 
-    public boolean inserirNode(int idNode, String zona){
+    public boolean inserirNode(String idNodeGest, String zona){
+        //TERÁ DE COMUNICAR COM O NODEGEST -> NODE
         return true;
     }
     
-    public boolean inserirSensor(){
+    public boolean inserirSensor(String idNode, int intervalo, String tipo){
+        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
         return true;
     }
     
     //PEDIDOS
     public String pedirDadosSensor (String sector, String zona){
+        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
         return "";
     }
     
     //DEVERÁ DEFINIR O INTERVALO DE TEMPO QUE RECEBE (LÊ) DADOS DE TODA A ZONA (TODOS OS SENSORES)
-    public String definirIntervalo (String sector, String zona){
+    public String definirIntervaloSensor (String sector, String zona){
+        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
         return "";
     }
-}
+} 

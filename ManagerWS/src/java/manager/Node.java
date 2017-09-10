@@ -1,4 +1,4 @@
-package nodegest;
+package manager;
 /**
  *
  * @author bruno
