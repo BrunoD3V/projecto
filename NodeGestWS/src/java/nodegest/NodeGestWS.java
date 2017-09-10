@@ -5,7 +5,6 @@
  */
 package nodegest;
 
-import java.util.ArrayList;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -20,7 +19,7 @@ public class NodeGestWS {
     @WebMethod(operationName = "inserirNodeGest")
     public Boolean inserirNodeGest(@WebParam(name = "sector") String sector)
     {
-        GereNodeGest DB = new GereNodeGest();
+        GereNode DB = new GereNode();
         return DB.inserirNodeGest(sector);
     }
     
@@ -28,7 +27,7 @@ public class NodeGestWS {
     public Boolean inserirNode(@WebParam(name = "nodeGestSector") String nodeGestSector,
             @WebParam(name = "zona") String zona)
     {
-        GereNodeGest DB = new GereNodeGest();
+        GereNode DB = new GereNode();
         return DB.inserirNode(nodeGestSector,zona);
     }
     
@@ -37,34 +36,28 @@ public class NodeGestWS {
             @WebParam(name = "intervalo") int intervalo,
             @WebParam(name = "tipo") String tipo)
     {
-        GereNodeGest DB = new GereNodeGest();
+        GereNode DB = new GereNode();
         return DB.inserirSensor(idNode,intervalo,tipo);
     }
     
-    //TALVEZ NAO TENHA UTILIDADE
-    @WebMethod(operationName = "listarNodeGest")
-    public ArrayList<NodeGest> listarNodeGest(){
-        GereNodeGest DB = new GereNodeGest();
-        return DB.listarNodeGest();
-    }
     
     @WebMethod(operationName = "pesquisarNodeGest")
     public NodeGest pesquisarNodeGest(@WebParam(name = "sector") String sector){
-        GereNodeGest DB = new GereNodeGest();
+        GereNode DB = new GereNode();
         return DB.pesquisarNodeGest(sector);
     }
     
     @WebMethod(operationName = "pedirDadosSensor")
     public String pedirDadosSensor (@WebParam(name = "sector") String sector,
             @WebParam(name = "zona") String zona){
-        GereNodeGest DB = new GereNodeGest();
+        GereNode DB = new GereNode();
         return DB.pedirDadosSensor(sector,zona);
     }
     
     @WebMethod (operationName = "definirIntervaloSensor")
     public String definirIntervaloSensor (@WebParam(name = "sector") String sector,
             @WebParam(name = "zona") String zona){
-        GereNodeGest DB = new GereNodeGest();
+        GereNode DB = new GereNode();
         return DB.definirIntervaloSensor(sector,zona);
     }           
 }

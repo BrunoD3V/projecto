@@ -21,25 +21,7 @@ public class GereNodeGest {
     
     public boolean inserirNodeGest(String sector){
         
-        if(this.pesquisarNodeGest(sector)== null){
-            try {
-            Connection connection = ManagerDB.getConnection();
-  
-            //O VALOR NULL É CORRESPONDENTE AO ID AUTOMATICO DA DATABASE
-            String query = "INSERT INTO nodegest VALUES (null, ?)";
-            PreparedStatement ppStmt = connection.prepareStatement(query);
-            ppStmt.setString(1, sector);
-            
-            ppStmt.executeUpdate();
-            
-            connection.close();
-            
-            } catch (SQLException ex) {
-                Logger.getLogger(GereNodeGest.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
-            }
-        }
-        
+        //SOAP
         return true;
     }
     
@@ -69,51 +51,34 @@ public class GereNodeGest {
     }
     
     public NodeGest pesquisarNodeGest(String sector){
-        NodeGest nodegest = null;
-        try {
-            Connection connection = ManagerDB.getConnection();
-  
-            String query = "SELECT * FROM nodegest WHERE sector = ?";
-            PreparedStatement ppStmt = connection.prepareStatement(query);
-            ppStmt.setString(1, sector);
-            
-            ResultSet rSet = ppStmt.executeQuery();
-            if(rSet.next()){
-                nodegest = new NodeGest();
-                
-                nodegest.setSector(rSet.getString("sector"));
-               
-            }else{
-                return nodegest;
-            }
-            connection.close();
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(GereNodeGest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        //SOAP
+        NodeGest nodegest = new NodeGest();
         return nodegest;
     }
     
     //METODOS PARA INTRODUZIR NODES E SENSORES 
     public boolean inserirNode(String idNodeGest, String zona){
+        //SOAP
         //TERÁ DE COMUNICAR COM O NODEGEST -> NODE
         return true;
     }
     
     public boolean inserirSensor(String idNode, int intervalo, String tipo){
+        //SOAP
         //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
         return true;
     }
     
     //PEDIDOS
     public String pedirDadosSensor (String sector, String zona){
+        //SOAP
         //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
         return "";
     }
     
     //DEVERÁ DEFINIR O INTERVALO DE TEMPO QUE RECEBE (LÊ) DADOS DE TODA A ZONA (TODOS OS SENSORES)
     public String definirIntervaloSensor (String sector, String zona){
+        //SOAP
         //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
         return "";
     }

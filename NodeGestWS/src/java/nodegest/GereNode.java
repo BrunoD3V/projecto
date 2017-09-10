@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,17 +18,16 @@ import java.util.logging.Logger;
  */
 public class GereNode {
     
-    public boolean inserirNode(int idNodeGest, String zona){
+    public boolean inserirNodeGest(String sector){
         
-        if(this.pesquisarNode(zona)== null){
+        if(this.pesquisarNodeGest(sector)== null){
             try {
             Connection connection = NodeGestDB.getConnection();
-  
+
             //O VALOR NULL É CORRESPONDENTE AO ID AUTOMATICO DA DATABASE
-            String query = "INSERT INTO node VALUES (null, ?, ?)";
+            String query = "INSERT INTO nodegest VALUES (?)";
             PreparedStatement ppStmt = connection.prepareStatement(query);
-            ppStmt.setInt(1, idNodeGest);
-            ppStmt.setString(2, zona);
+            ppStmt.setString(1, sector);
             
             ppStmt.executeUpdate();
             
@@ -44,51 +42,23 @@ public class GereNode {
         return true;
     }
     
-    public ArrayList<Node> listarNode(){
-        ArrayList<Node> lista = new ArrayList<>();
+    public NodeGest pesquisarNodeGest(String sector){
+        NodeGest nodegest = null;
         try {
             Connection connection = NodeGestDB.getConnection();
   
-            String query = "SELECT * FROM node";
+            String query = "SELECT * FROM nodegest WHERE sector = ?";
             PreparedStatement ppStmt = connection.prepareStatement(query);
-            
-            ResultSet rSet = ppStmt.executeQuery();
-            while(rSet.next()){
-                Node node = new Node();
-                
-                node.setZona(rSet.getString("zona"));
-               
-                
-                
-                lista.add(node);
-            }
-            connection.close();
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(GereNode.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return lista;
-    }
-    
-    public Node pesquisarNode(String zona){
-        Node node = null;
-        try {
-            Connection connection = NodeGestDB.getConnection();
-  
-            String query = "SELECT * FROM node WHERE zona = ?";
-            PreparedStatement ppStmt = connection.prepareStatement(query);
-            ppStmt.setString(1, zona);
+            ppStmt.setString(1, sector);
             
             ResultSet rSet = ppStmt.executeQuery();
             if(rSet.next()){
-                node = new Node();
+                nodegest = new NodeGest();
                 
-                node.setZona(rSet.getString("zona"));
-                node.setNodeGestSector(rSet.getString("id"));
+                nodegest.setSector(rSet.getString("sector"));
                
             }else{
-                return node;
+                return nodegest;
             }
             connection.close();
             
@@ -96,20 +66,33 @@ public class GereNode {
             Logger.getLogger(GereNode.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return node;
-    } 
+        return nodegest;
+    }
+    
     //METODOS PARA INTRODUZIR NODES E SENSORES 
-    public boolean inserirSensor(){
+    public boolean inserirNode(String idNodeGest, String zona){
+        //SOAP
+        //TERÁ DE COMUNICAR COM O NODEGEST -> NODE
+        return true;
+    }
+    
+    public boolean inserirSensor(String idNode, int intervalo, String tipo){
+        //SOAP
+        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
         return true;
     }
     
     //PEDIDOS
     public String pedirDadosSensor (String sector, String zona){
+        //SOAP
+        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
         return "";
     }
     
     //DEVERÁ DEFINIR O INTERVALO DE TEMPO QUE RECEBE (LÊ) DADOS DE TODA A ZONA (TODOS OS SENSORES)
-    public String definirIntervalo (String sector, String zona){
+    public String definirIntervaloSensor (String sector, String zona){
+        //SOAP
+        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
         return "";
     }
 }
