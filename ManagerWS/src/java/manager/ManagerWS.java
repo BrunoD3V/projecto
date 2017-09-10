@@ -18,16 +18,10 @@ import javax.jws.WebParam;
 public class ManagerWS {
 
     @WebMethod(operationName = "inserirNodeGest")
-    public Boolean inserirNodeGest(@WebParam(name = "TempMin") float TempMin,
-            @WebParam(name = "TempMax") float TempMax,
-            @WebParam(name = "HumiMin") float HumiMin,
-            @WebParam(name = "HumiMax") float HumiMax,
-            @WebParam(name = "RadiMin") float RadiMin,
-            @WebParam(name = "RadiMax") float RadiMax,
-            @WebParam(name = "sector") String sector)
+    public Boolean inserirNodeGest(@WebParam(name = "sector") String sector)
     {
         GereNodeGest DB = new GereNodeGest();
-        return DB.inserirNodeGest(TempMin,TempMax,HumiMin,HumiMax,RadiMin,RadiMax,sector);
+        return DB.inserirNodeGest(sector);
     }
     
     @WebMethod(operationName = "listarNodeGest")
@@ -41,4 +35,19 @@ public class ManagerWS {
         GereNodeGest DB = new GereNodeGest();
         return DB.pesquisarNodeGest(sector);
     }
+    
+    @WebMethod(operationName = "pedirDadosSensor")
+    public String pedirDadosSensor (@WebParam(name = "sector") String sector,
+            @WebParam(name = "zona") String zona){
+        GereNodeGest DB = new GereNodeGest();
+        return DB.pedirDadosSensor(sector,zona);
+    }
+    
+    @WebMethod (operationName = "definirIntervalo")
+    public String definirIntervalo (@WebParam(name = "sector") String sector,
+            @WebParam(name = "zona") String zona){
+        GereNodeGest DB = new GereNodeGest();
+        return DB.definirIntervalo(sector,zona);
+    }
+            
 }

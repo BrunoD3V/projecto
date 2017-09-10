@@ -19,23 +19,17 @@ import java.util.logging.Logger;
  */
 public class GereNodeGest {
     
-    public boolean inserirNodeGest(float TempMin,float TempMax,float HumiMin,float HumiMax,float RadiMin,float RadiMax, String sector){
+    public boolean inserirNodeGest(String sector){
         
         if(this.pesquisarNodeGest(sector)== null){
             try {
             Connection connection = ManagerDB.getConnection();
   
             //O VALOR NULL É CORRESPONDENTE AO ID AUTOMATICO DA DATABASE
-            String query = "INSERT INTO nodegest VALUES (null, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO nodegest VALUES (null, ?)";
             PreparedStatement ppStmt = connection.prepareStatement(query);
-            ppStmt.setFloat(1, TempMin);
-            ppStmt.setFloat(2, TempMax);
-            ppStmt.setFloat(3, HumiMin);
-            ppStmt.setFloat(4, HumiMax);
-            ppStmt.setFloat(5, RadiMin);
-            ppStmt.setFloat(6, RadiMax);
-            ppStmt.setString(7, sector);
-                        
+            ppStmt.setString(1, sector);
+            
             ppStmt.executeUpdate();
             
             connection.close();
@@ -44,7 +38,6 @@ public class GereNodeGest {
                 Logger.getLogger(GereNodeGest.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
-            
         }
         
         return true;
@@ -62,12 +55,6 @@ public class GereNodeGest {
             while(rSet.next()){
                 NodeGest nodegest = new NodeGest();
                 
-                nodegest.setTempMin(rSet.getFloat("tempmin"));
-                nodegest.setTempMax(rSet.getFloat("tempmax"));
-                nodegest.setHumiMin(rSet.getFloat("humimin"));
-                nodegest.setHumiMax(rSet.getFloat("humimax"));
-                nodegest.setRadiMin(rSet.getFloat("radimin"));
-                nodegest.setRadiMax(rSet.getFloat("radimax"));
                 nodegest.setSector(rSet.getString("sector"));
                 
                 lista.add(nodegest);
@@ -94,12 +81,6 @@ public class GereNodeGest {
             if(rSet.next()){
                 nodegest = new NodeGest();
                 
-                nodegest.setTempMin(rSet.getFloat("tempmin"));
-                nodegest.setTempMax(rSet.getFloat("tempmax"));
-                nodegest.setHumiMin(rSet.getFloat("humimin"));
-                nodegest.setHumiMax(rSet.getFloat("humimax"));
-                nodegest.setRadiMin(rSet.getFloat("radimin"));
-                nodegest.setRadiMax(rSet.getFloat("radimax"));
                 nodegest.setSector(rSet.getString("sector"));
                
             }else{
@@ -112,5 +93,15 @@ public class GereNodeGest {
         }
         
         return nodegest;
+    }
+    
+    //PEDIDOS
+    public String pedirDadosSensor (String sector, String zona){
+        return "";
+    }
+    
+    //DEVERÁ DEFINIR O INTERVALO DE TEMPO QUE RECEBE (LÊ) DADOS DE TODA A ZONA (TODOS OS SENSORES)
+    public String definirIntervalo (String sector, String zona){
+        return "";
     }
 }
