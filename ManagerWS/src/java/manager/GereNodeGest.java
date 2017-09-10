@@ -95,6 +95,16 @@ public class GereNodeGest {
         return nodegest;
     }
     
+    //METODOS PARA INTRODUZIR NODES E SENSORES 
+    
+    public boolean inserirNode(){
+        return true;
+    }
+    
+    public boolean inserirSensor(){
+        return true;
+    }
+    
     //PEDIDOS
     public String pedirDadosSensor (String sector, String zona){
         return "";

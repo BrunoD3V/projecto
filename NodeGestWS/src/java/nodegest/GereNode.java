@@ -19,23 +19,18 @@ import java.util.logging.Logger;
  */
 public class GereNode {
     
-    public boolean inserirNodeGest(float TempMin,float TempMax,float HumiMin,float HumiMax,float RadiMin,float RadiMax, String sector){
+    public boolean inserirNode(int idNodeGest, String zona){
         
-        if(this.pesquisarNodeGest(sector)== null){
+        if(this.pesquisarNode(zona)== null){
             try {
             Connection connection = NodeGestDB.getConnection();
   
             //O VALOR NULL É CORRESPONDENTE AO ID AUTOMATICO DA DATABASE
-            String query = "INSERT INTO nodegest VALUES (null, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO node VALUES (null, ?, ?)";
             PreparedStatement ppStmt = connection.prepareStatement(query);
-            ppStmt.setFloat(1, TempMin);
-            ppStmt.setFloat(2, TempMax);
-            ppStmt.setFloat(3, HumiMin);
-            ppStmt.setFloat(4, HumiMax);
-            ppStmt.setFloat(5, RadiMin);
-            ppStmt.setFloat(6, RadiMax);
-            ppStmt.setString(7, sector);
-                        
+            ppStmt.setInt(1, idNodeGest);
+            ppStmt.setString(2, zona);
+            
             ppStmt.executeUpdate();
             
             connection.close();
@@ -44,31 +39,26 @@ public class GereNode {
                 Logger.getLogger(GereNode.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
-            
         }
         
         return true;
     }
     
-    public ArrayList<Node> listarNodeGest(){
+    public ArrayList<Node> listarNode(){
         ArrayList<Node> lista = new ArrayList<>();
         try {
             Connection connection = NodeGestDB.getConnection();
   
-            String query = "SELECT * FROM nodegest";
+            String query = "SELECT * FROM node";
             PreparedStatement ppStmt = connection.prepareStatement(query);
             
             ResultSet rSet = ppStmt.executeQuery();
             while(rSet.next()){
                 Node node = new Node();
                 
-                node.setTempMin(rSet.getFloat("tempmin"));
-                node.setTempMax(rSet.getFloat("tempmax"));
-                node.setHumiMin(rSet.getFloat("humimin"));
-                node.setHumiMax(rSet.getFloat("humimax"));
-                node.setRadiMin(rSet.getFloat("radimin"));
-                node.setRadiMax(rSet.getFloat("radimax"));
-                node.setSector(rSet.getString("sector"));
+                node.setZona(rSet.getString("zona"));
+                node.setIdNode(rSet.getInt("id"));
+                
                 
                 lista.add(node);
             }
@@ -81,26 +71,21 @@ public class GereNode {
         return lista;
     }
     
-    public Node pesquisarNodeGest(String sector){
+    public Node pesquisarNode(String zona){
         Node node = null;
         try {
             Connection connection = NodeGestDB.getConnection();
   
-            String query = "SELECT * FROM nodegest WHERE sector = ?";
+            String query = "SELECT * FROM node WHERE zona = ?";
             PreparedStatement ppStmt = connection.prepareStatement(query);
-            ppStmt.setString(1, sector);
+            ppStmt.setString(1, zona);
             
             ResultSet rSet = ppStmt.executeQuery();
             if(rSet.next()){
                 node = new Node();
                 
-                node.setTempMin(rSet.getFloat("tempmin"));
-                node.setTempMax(rSet.getFloat("tempmax"));
-                node.setHumiMin(rSet.getFloat("humimin"));
-                node.setHumiMax(rSet.getFloat("humimax"));
-                node.setRadiMin(rSet.getFloat("radimin"));
-                node.setRadiMax(rSet.getFloat("radimax"));
-                node.setSector(rSet.getString("sector"));
+                node.setZona(rSet.getString("zona"));
+                node.setIdNode(rSet.getInt("id"));
                
             }else{
                 return node;
@@ -108,14 +93,18 @@ public class GereNode {
             connection.close();
             
         } catch (SQLException ex) {
-            Logger.getLogger(GereNodeGest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GereNode.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return node;
+    } 
+    //PEDIDOS
+    public String pedirDadosSensor (String sector, String zona){
+        return "";
     }
     
-    public void enviarMensagemNode(){
-        
+    //DEVERÁ DEFINIR O INTERVALO DE TEMPO QUE RECEBE (LÊ) DADOS DE TODA A ZONA (TODOS OS SENSORES)
+    public String definirIntervalo (String sector, String zona){
+        return "";
     }
-    
 }

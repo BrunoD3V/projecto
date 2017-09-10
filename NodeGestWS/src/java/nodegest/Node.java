@@ -11,4 +11,32 @@ package nodegest;
  */
 public class Node {
     
+    private int idNode;
+    private String zona;
+    
+
+    public Node(int idNode, String zona) {
+        this.idNode = idNode;
+        this.zona = zona;
+    }
+    
+    public Node(){
+        
+    }
+    
+    public int getIdNode() {
+        return idNode;
+    }
+
+    public void setIdNode(int idNode) {
+        this.idNode = idNode;
+    }
+
+    public String getZona() {
+        return zona;
+    }
+
+    public void setZona(String zona) {
+        this.zona = zona;
+    }
 }

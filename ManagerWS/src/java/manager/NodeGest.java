@@ -11,22 +11,12 @@ package manager;
  */
 public class NodeGest {
     
-    private float TempMin;
-    private float TempMax;
-    private float HumiMin;
-    private float HumiMax;
-    private float RadiMin;
-    private float RadiMax;
+    private int idNodeGest;
     private String sector;
 
     //Construtor
-    public NodeGest(float TempMin, float TempMax, float HumiMin, float HumiMax, float RadiMin, float RadiMax, String sector) {
-        this.TempMin = TempMin;
-        this.TempMax = TempMax;
-        this.HumiMin = HumiMin;
-        this.HumiMax = HumiMax;
-        this.RadiMin = RadiMin;
-        this.RadiMax = RadiMax;
+    public NodeGest(int idNodeGest, String sector) {
+        this.idNodeGest = idNodeGest;
         this.sector = sector;
     }
     
@@ -34,56 +24,14 @@ public class NodeGest {
         this.sector = "";
     }
 
-
-    //Getters e Setters
-    public float getTempMin() {
-        return TempMin;
+    public int getIdNodeGest() {
+        return idNodeGest;
     }
 
-    public void setTempMin(float TempMin) {
-        this.TempMin = TempMin;
+    public void setIdNodeGest(int idNodeGest) {
+        this.idNodeGest = idNodeGest;
     }
-
-    public float getTempMax() {
-        return TempMax;
-    }
-
-    public void setTempMax(float TempMax) {
-        this.TempMax = TempMax;
-    }
-
-    public float getHumiMin() {
-        return HumiMin;
-    }
-
-    public void setHumiMin(float HumiMin) {
-        this.HumiMin = HumiMin;
-    }
-
-    public float getHumiMax() {
-        return HumiMax;
-    }
-
-    public void setHumiMax(float HumiMax) {
-        this.HumiMax = HumiMax;
-    }
-
-    public float getRadiMin() {
-        return RadiMin;
-    }
-
-    public void setRadiMin(float RadiMin) {
-        this.RadiMin = RadiMin;
-    }
-
-    public float getRadiMax() {
-        return RadiMax;
-    }
-
-    public void setRadiMax(float RadiMax) {
-        this.RadiMax = RadiMax;
-    }
-
+    
     public String getSector() {
         return sector;
     }
