@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: 08-Set-2017 às 16:12
--- Versão do servidor: 5.7.19
+-- Host: 127.0.0.1
+-- Generation Time: Sep 10, 2017 at 07:10 PM
+-- Server version: 10.1.25-MariaDB
 -- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -25,75 +25,110 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `alertas`
+-- Table structure for table `alertas`
 --
 
-DROP TABLE IF EXISTS `alertas`;
-CREATE TABLE IF NOT EXISTS `alertas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `alertas` (
+  `id` int(11) NOT NULL,
   `idNodeGest` int(11) NOT NULL,
-  `alerta` varchar(200) NOT NULL,
-  PRIMARY KEY (`id`)
+  `alerta` varchar(200) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `medicoes`
+-- Table structure for table `medicoes`
 --
 
-DROP TABLE IF EXISTS `medicoes`;
-CREATE TABLE IF NOT EXISTS `medicoes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `medicoes` (
+  `id` int(11) NOT NULL,
   `idsensor` int(11) NOT NULL,
   `data` datetime NOT NULL,
   `medicao` varchar(150) NOT NULL,
-  `tipo` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  `tipo` varchar(50) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `node`
+-- Table structure for table `node`
 --
 
-DROP TABLE IF EXISTS `node`;
-CREATE TABLE IF NOT EXISTS `node` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `idNodeGest` int(11) NOT NULL,
-  `zona` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE `node` (
+  `nodegsector` varchar(2) NOT NULL,
+  `zona` varchar(2) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `nodegest`
+-- Table structure for table `nodegest`
 --
 
-DROP TABLE IF EXISTS `nodegest`;
-CREATE TABLE IF NOT EXISTS `nodegest` (
-  `setor` varchar(50) NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+CREATE TABLE `nodegest` (
+  `sector` varchar(2) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `sensor`
+-- Table structure for table `sensor`
 --
 
-DROP TABLE IF EXISTS `sensor`;
-CREATE TABLE IF NOT EXISTS `sensor` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo` varchar(50) NOT NULL,
-  `idNodo` int(11) NOT NULL,
+CREATE TABLE `sensor` (
+  `idNodo` varchar(2) NOT NULL,
   `intervalo` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `tipo` varchar(4) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-COMMIT;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `alertas`
+--
+ALTER TABLE `alertas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `medicoes`
+--
+ALTER TABLE `medicoes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `node`
+--
+ALTER TABLE `node`
+  ADD PRIMARY KEY (`zona`);
+
+--
+-- Indexes for table `nodegest`
+--
+ALTER TABLE `nodegest`
+  ADD PRIMARY KEY (`sector`);
+
+--
+-- Indexes for table `sensor`
+--
+ALTER TABLE `sensor`
+  ADD PRIMARY KEY (`tipo`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `alertas`
+--
+ALTER TABLE `alertas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `medicoes`
+--
+ALTER TABLE `medicoes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
