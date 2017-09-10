@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package manager;
+package nodegest;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,25 +20,44 @@ public class GereNodeGest {
     
     public boolean inserirNodeGest(String sector){
         
-        //SOAP
+        if(this.pesquisarNodeGest(sector)== null){
+            try {
+            Connection connection = NodeGestDB.getConnection();
+            
+            String query = "INSERT INTO nodegest VALUES (?)";
+            PreparedStatement ppStmt = connection.prepareStatement(query);
+            ppStmt.setString(1, sector);
+            
+            ppStmt.executeUpdate();
+            
+            connection.close();
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(GereNodeGest.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+        }
+        
         return true;
     }
     
-    public ArrayList<NodeGest> listarNodeGest(){
-        ArrayList<NodeGest> lista = new ArrayList<>();
+    public NodeGest pesquisarNodeGest(String sector){
+        NodeGest nodegest = null;
         try {
-            Connection connection = ManagerDB.getConnection();
+            Connection connection = NodeGestDB.getConnection();
   
-            String query = "SELECT * FROM nodegest";
+            String query = "SELECT * FROM nodegest WHERE sector = ?";
             PreparedStatement ppStmt = connection.prepareStatement(query);
+            ppStmt.setString(1, sector);
             
             ResultSet rSet = ppStmt.executeQuery();
-            while(rSet.next()){
-                NodeGest nodegest = new NodeGest();
+            if(rSet.next()){
+                nodegest = new NodeGest();
                 
                 nodegest.setSector(rSet.getString("sector"));
-                
-                lista.add(nodegest);
+               
+            }else{
+                return nodegest;
             }
             connection.close();
             
@@ -47,12 +65,6 @@ public class GereNodeGest {
             Logger.getLogger(GereNodeGest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return lista;
-    }
-    
-    public NodeGest pesquisarNodeGest(String sector){
-        //SOAP
-        NodeGest nodegest = new NodeGest();
         return nodegest;
     }
     
@@ -70,16 +82,16 @@ public class GereNodeGest {
     }
     
     //PEDIDOS
-    public String pedirDadosSensor (String sector, String zona){
+    public String pedirDadosSensor (String sector, String zona, String tipo){
         //SOAP
         //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
         return "";
     }
     
     //DEVERÁ DEFINIR O INTERVALO DE TEMPO QUE RECEBE (LÊ) DADOS DE TODA A ZONA (TODOS OS SENSORES)
-    public String definirIntervaloSensor (String sector, String zona){
+    public String definirIntervaloSensor (String sector, String zona, String tipo, int valor){
         //SOAP
         //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
         return "";
     }
-} 
+}
