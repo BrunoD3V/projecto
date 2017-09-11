@@ -59,7 +59,8 @@ public class Interface {
                             intervalo = Integer.valueOf(consoleReader.readLine());
                             System.out.println("\nInsira o tipo de sensor");
                             tipo = consoleReader.readLine();
-                            gm.inserirSensor(idNode, intervalo, tipo);
+                            boolean res = gm.inserirSensor(idNode, intervalo, tipo);
+                            System.out.println(res);
                             break;
                             
                     case 4: gm.listarNodeGest().toString();

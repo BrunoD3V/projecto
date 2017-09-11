@@ -26,9 +26,8 @@ public class GereSensor {
         if(this.pesquisarSensor(tipo)== null){
             try {
             Connection connection = SensorDB.getConnection();
-
             //O VALOR NULL É CORRESPONDENTE AO ID AUTOMATICO DA DATABASE
-            String query = "INSERT INTO node VALUES (?, ?. ?)";
+            String query = "INSERT INTO sensor VALUES (?, ?, ?)";
             PreparedStatement ppStmt = connection.prepareStatement(query);
             ppStmt.setString(1, idNodo);
             ppStmt.setInt(2, intervalo);
@@ -77,7 +76,7 @@ public class GereSensor {
     //PEDIDOS
     public String pedirDadosSensor (String sector, String zona, String tipo){
         //SOAP
-        String result = "";
+        String result = "Não deu";
         if(tipo.equalsIgnoreCase("temp")){
             float temperatura = getTemp();
             result = "Resposta Sector " + sector + " Zona " + zona + "Tipo " + tipo + " Temperatura = " + temperatura;   
