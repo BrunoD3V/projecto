@@ -8,6 +8,8 @@ package manager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +20,21 @@ public class Interface {
     //Console Input Reader
     private static BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
     private static String consoleInput = "";
+    
+    
+    
+    private static void iniciaTimer(String sector, String zona, String tipo, int intervalo){
+         new Timer().schedule(new TimerTask(){
+            
+                            @Override
+                            public void run() {
+                               GereManager gm = new GereManager();
+                                System.out.println(gm.pedirDadosSensor(sector, zona, tipo));
+                               
+                            }
+                        },1000*60*intervalo,1000*60*intervalo); 
+        
+    }
     
     
     public static void main(String[] args) {
@@ -88,7 +105,7 @@ public class Interface {
                             tipo = consoleReader.readLine();
                             System.out.println("\nInsira o intervalo de tempo");
                             intervalo = Integer.valueOf(consoleReader.readLine());
-                            System.out.println(gm.definirIntervaloSensor(sector, zona, tipo, intervalo));
+                            iniciaTimer(sector, zona, tipo, intervalo);
                             break;
                     
                     default: System.out.println("Opção inválida");
@@ -96,6 +113,7 @@ public class Interface {
                         
                 }
             }
+            
             /*
             System.out.println("Inserir Sector: ");
             String sector;
@@ -113,5 +131,8 @@ public class Interface {
         } catch (IOException ex) {
             Logger.getLogger(Interface.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        
     }
 }
