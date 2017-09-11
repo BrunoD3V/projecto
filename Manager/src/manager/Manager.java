@@ -102,6 +102,7 @@ public class Manager extends Thread{
         try{
             server = new ServerSocket(1111);
             nodeGestList = new Vector<NodeGest>();
+            
             Runtime.getRuntime().exec("cmd /c sector1.bat", null, new File("C:\\"));
             
             while(true){

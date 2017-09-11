@@ -10,10 +10,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/**
- *
- * @author bruno
- */
+
+
+
 public class Sensor extends Thread {
 
     //Connection Variables

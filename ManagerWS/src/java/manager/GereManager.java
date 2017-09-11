@@ -14,14 +14,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.soap.*;
 import javax.xml.ws.WebServiceRef;
-/**
- *
- * @author bruno
- */
+import nodegest.NodeGestWS;
+import nodegest.NodeGestWS_Service;
+
+
+
 public class GereManager {
     
     public boolean inserirNodeGest(String sector){
         //SOAP
+        NodeGestWS_Service ngService = new NodeGestWS_Service();
+        NodeGestWS ngWS = ngService.getNodeGestWSPort();
+        ngWS.inserirNodeGest(sector);
         return true;
     }
     
@@ -58,28 +62,37 @@ public class GereManager {
     
     //METODOS PARA INTRODUZIR NODES E SENSORES 
     public boolean inserirNode(String idNodeGest, String zona){
-        //SOAP
-        //TERÁ DE COMUNICAR COM O NODEGEST -> NODE
+        
+        NodeGestWS_Service nodeGestService = new NodeGestWS_Service();
+        NodeGestWS nodeGestWS = nodeGestService.getNodeGestWSPort();
+        if(!nodeGestWS.inserirNode(idNodeGest, zona))
+            return false;
+        
         return true;
     }
     
     public boolean inserirSensor(String idNode, int intervalo, String tipo){
-        //SOAP
-        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
+        
+        NodeGestWS_Service nodeGestService = new NodeGestWS_Service();
+        NodeGestWS nodeGestWS = nodeGestService.getNodeGestWSPort();
+        if(!nodeGestWS.inserirSensor(idNode, intervalo, tipo))
+            return false;
         return true;
     }
     
     //PEDIDOS
     public String pedirDadosSensor (String sector, String zona, String tipo){
         //SOAP
-        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
-        return "";
+        NodeGestWS_Service nodeGestService = new NodeGestWS_Service();
+        NodeGestWS nodeGestWS = nodeGestService.getNodeGestWSPort();
+        return nodeGestWS.pedirDadosSensor(sector, zona, tipo);
     }
     
     //DEVERÁ DEFINIR O INTERVALO DE TEMPO QUE RECEBE (LÊ) DADOS DE TODA A ZONA (TODOS OS SENSORES)
     public String definirIntervaloSensor (String sector, String zona, String tipo, int valor){
-        //SOAP
-        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
-        return "";
+        
+        NodeGestWS_Service nodeGestService = new NodeGestWS_Service();
+        NodeGestWS nodeGestWS = nodeGestService.getNodeGestWSPort();
+        return nodeGestWS.definirIntervaloSensor(sector, zona, tipo, valor);
     }
 } 

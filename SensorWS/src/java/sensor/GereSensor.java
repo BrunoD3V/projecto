@@ -10,14 +10,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author bruno
- */
+
 public class GereSensor {
+    
+    private String result = "";
     
     
     public boolean inserirSensor(String idNodo, int intervalo, String tipo){
@@ -79,15 +80,15 @@ public class GereSensor {
         String result = "";
         if(tipo.equalsIgnoreCase("temp")){
             float temperatura = getTemp();
-            result = "Resposta Sector " + sector + " Zona " + zona + "Tipo " + tipo + "Temperatura = " + temperatura;   
+            result = "Resposta Sector " + sector + " Zona " + zona + "Tipo " + tipo + " Temperatura = " + temperatura;   
         }
         if(tipo.equalsIgnoreCase("radi")){
             float radi = getSolarRad();
-            result = "Resposta Sector " + sector + " Zona " + zona + "Tipo " + tipo + "Radiação = " + radi;
+            result = "Resposta Sector " + sector + " Zona " + zona + "Tipo " + tipo + " Radiação = " + radi;
         }
         if(tipo.equalsIgnoreCase("humi")){
             float humi = getHumidity();
-            result = "Resposta Sector " + sector + " Zona " + zona + "Tipo " + tipo + "Humidade = " + humi;
+            result = "Resposta Sector " + sector + " Zona " + zona + "Tipo " + tipo + " Humidade = " + humi;
         }
         return result;
     }
@@ -98,9 +99,18 @@ public class GereSensor {
     
     //DEVERÁ DEFINIR O INTERVALO DE TEMPO QUE RECEBE (LÊ) DADOS DE TODA A ZONA (TODOS OS SENSORES)
     public String definirIntervaloSensor (String sector, String zona, String tipo, int valor){
-        //SOAP
-        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
-        return "";
+        
+        result = "";
+        
+        new Timer().schedule(new TimerTask(){
+            
+                            @Override
+                            public void run() {
+                               result = pedirDadosSensor(sector, zona, tipo);
+                            }
+                        },1000*60*valor,1000*60*valor); 
+        
+        return result;
     }
     
     //GERA VALORES ALEATÓRIOS PARA CADA TIPO DE SENSOR

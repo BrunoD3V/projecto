@@ -11,11 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import node.NodeWS;
+import node.NodeWS_Service;
 
-/**
- *
- * @author bruno
- */
+
 public class GereNodeGest {
     
     public boolean inserirNodeGest(String sector){
@@ -70,28 +69,39 @@ public class GereNodeGest {
     
     //METODOS PARA INTRODUZIR NODES E SENSORES 
     public boolean inserirNode(String idNodeGest, String zona){
-        //SOAP
-        //TERÁ DE COMUNICAR COM O NODEGEST -> NODE
+        
+        NodeWS_Service nodeService = new NodeWS_Service();
+        NodeWS nodeWS = nodeService.getNodeWSPort();
+        if(!nodeWS.inserirNode(idNodeGest, zona))
+            return false;
+        
         return true;
     }
     
     public boolean inserirSensor(String idNode, int intervalo, String tipo){
-        //SOAP
-        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
+        
+        NodeWS_Service nodeService = new NodeWS_Service();
+        NodeWS nodeWS = nodeService.getNodeWSPort();
+        if(!nodeWS.inserirSensor(idNode, intervalo, tipo))
+            return false;
         return true;
     }
     
     //PEDIDOS
     public String pedirDadosSensor (String sector, String zona, String tipo){
         //SOAP
-        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
-        return "";
+        NodeWS_Service nodeService = new NodeWS_Service();
+        NodeWS nodeWS = nodeService.getNodeWSPort();
+        
+        return nodeWS.pedirDadosSensor(sector, zona, tipo);
     }
     
     //DEVERÁ DEFINIR O INTERVALO DE TEMPO QUE RECEBE (LÊ) DADOS DE TODA A ZONA (TODOS OS SENSORES)
     public String definirIntervaloSensor (String sector, String zona, String tipo, int valor){
-        //SOAP
-        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
-        return "";
+        
+        NodeWS_Service nodeService = new NodeWS_Service();
+        NodeWS nodeWS = nodeService.getNodeWSPort();
+        
+        return nodeWS.definirIntervaloSensor(sector, zona, tipo, valor);
     }
 }

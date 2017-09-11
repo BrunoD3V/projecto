@@ -11,11 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sensor.SensorWS;
+import sensor.SensorWS_Service;
 
-/**
- *
- * @author bruno
- */
+
 public class GereNode {
     
     public boolean inserirNode(String nodeGestSector, String zona){
@@ -71,22 +70,28 @@ public class GereNode {
     }
     
     public boolean inserirSensor(String idNode, int intervalo, String tipo){
-        //SOAP
-        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
+        
+        SensorWS_Service sensorService = new SensorWS_Service();
+        SensorWS sensorWS = sensorService.getSensorWSPort();
+        if(!sensorWS.inserirNode(idNode, intervalo, tipo))
+            return false;      
         return true;
     }
     
     //PEDIDOS
     public String pedirDadosSensor (String sector, String zona, String tipo){
         //SOAP
-        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
-        return "";
+        SensorWS_Service sensorService = new SensorWS_Service();
+        SensorWS sensorWS = sensorService.getSensorWSPort();
+        
+        return sensorWS.pedirDadosSensor(sector, zona, tipo);
     }
     
     //DEVERÁ DEFINIR O INTERVALO DE TEMPO QUE RECEBE (LÊ) DADOS DE TODA A ZONA (TODOS OS SENSORES)
     public String definirIntervaloSensor (String sector, String zona, String tipo, int valor){
-        //SOAP
-        //TERÁ QUE COMUNICAR COM O NODEGEST -> NODE -> SENSOR
-        return "";
+        SensorWS_Service sensorService = new SensorWS_Service();
+        SensorWS sensorWS = sensorService.getSensorWSPort();
+        
+        return sensorWS.definirIntervaloSensor(sector, zona, tipo, valor);
     }
 }

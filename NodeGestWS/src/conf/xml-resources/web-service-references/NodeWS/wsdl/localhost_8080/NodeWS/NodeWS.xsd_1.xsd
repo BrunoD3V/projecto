@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://node/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://node/">
+
+<xs:element name="definirIntervaloSensor" type="tns:definirIntervaloSensor"/>
+
+<xs:element name="definirIntervaloSensorResponse" type="tns:definirIntervaloSensorResponse"/>
+
+<xs:element name="inserirNode" type="tns:inserirNode"/>
+
+<xs:element name="inserirNodeResponse" type="tns:inserirNodeResponse"/>
+
+<xs:element name="inserirSensor" type="tns:inserirSensor"/>
+
+<xs:element name="inserirSensorResponse" type="tns:inserirSensorResponse"/>
+
+<xs:element name="pedirDadosSensor" type="tns:pedirDadosSensor"/>
+
+<xs:element name="pedirDadosSensorResponse" type="tns:pedirDadosSensorResponse"/>
+
+<xs:element name="pesquisarNode" type="tns:pesquisarNode"/>
+
+<xs:element name="pesquisarNodeResponse" type="tns:pesquisarNodeResponse"/>
+
+<xs:complexType name="inserirNode">
+<xs:sequence>
+<xs:element name="nodeGestSector" type="xs:string" minOccurs="0"/>
+<xs:element name="zona" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="inserirNodeResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="pedirDadosSensor">
+<xs:sequence>
+<xs:element name="sector" type="xs:string" minOccurs="0"/>
+<xs:element name="zona" type="xs:string" minOccurs="0"/>
+<xs:element name="tipo" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="pedirDadosSensorResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="definirIntervaloSensor">
+<xs:sequence>
+<xs:element name="sector" type="xs:string" minOccurs="0"/>
+<xs:element name="zona" type="xs:string" minOccurs="0"/>
+<xs:element name="tipo" type="xs:string" minOccurs="0"/>
+<xs:element name="valor" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="definirIntervaloSensorResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="pesquisarNode">
+<xs:sequence>
+<xs:element name="zona" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="pesquisarNodeResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:node" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="node">
+<xs:sequence>
+<xs:element name="nodeGestSector" type="xs:string" minOccurs="0"/>
+<xs:element name="zona" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="inserirSensor">
+<xs:sequence>
+<xs:element name="idNode" type="xs:string" minOccurs="0"/>
+<xs:element name="intervalo" type="xs:int"/>
+<xs:element name="tipo" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="inserirSensorResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

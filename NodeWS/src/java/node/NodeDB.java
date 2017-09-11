@@ -16,7 +16,7 @@ import java.sql.SQLException;
 public class NodeDB {
     
     //TODO CRIAR E INSERIR BASE DE DADOS NO URL
-    private static final String URL = "jdbc:mysql://localhost/";
+    private static final String URL = "jdbc:mysql://localhost/dbsd";
     private static final String USR = "root";
     private static final String PASS = "";
     
