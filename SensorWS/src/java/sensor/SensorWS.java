@@ -9,10 +9,7 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 
-/**
- *
- * @author bruno
- */
+
 @WebService(serviceName = "SensorWS")
 public class SensorWS {
 

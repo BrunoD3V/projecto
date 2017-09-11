@@ -1,8 +1,5 @@
 package manager;
-/**
- *
- * @author bruno
- */
+
 public class Node {
     
     private String nodeGestSector;

@@ -5,10 +5,7 @@
  */
 package manager;
 
-/**
- *
- * @author bruno
- */
+
 public class NodeGest {
     
     private String sector;

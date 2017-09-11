@@ -1,9 +1,6 @@
 package sensor;
 
-/**
- *
- * @author bruno
- */
+
 public class Sensor {
     
     private String idNode;

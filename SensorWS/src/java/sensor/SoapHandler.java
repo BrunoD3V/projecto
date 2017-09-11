@@ -5,10 +5,7 @@
  */
 package sensor;
 
-/**
- *
- * @author bruno
- */
+
 public class SoapHandler {
     private String NAMESPACE;
     private static String URL;

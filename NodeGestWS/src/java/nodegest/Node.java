@@ -1,8 +1,5 @@
 package nodegest;
-/**
- *
- * @author bruno
- */
+
 public class Node {
     
     private String nodeGestSector;

@@ -9,10 +9,7 @@ import java.net.Socket;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/**
- *
- * @author bruno
- */
+
 public class Node extends Thread{
 
     private final Socket nodeGestConnector = null;

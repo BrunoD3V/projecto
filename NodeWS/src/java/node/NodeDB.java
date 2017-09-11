@@ -9,10 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- *
- * @author bruno
- */
+
 public class NodeDB {
     
     //TODO CRIAR E INSERIR BASE DE DADOS NO URL

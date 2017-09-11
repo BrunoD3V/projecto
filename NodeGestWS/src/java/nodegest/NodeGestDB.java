@@ -9,10 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- *
- * @author bruno
- */
+
 public class NodeGestDB {
     //TODO CRIAR E INSERIR BASE DE DADOS NO URL
     private static final String URL = "jdbc:mysql://localhost/dbsd";

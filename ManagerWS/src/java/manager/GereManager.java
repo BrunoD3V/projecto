@@ -54,10 +54,15 @@ public class GereManager {
         return lista;
     }
     
-    public NodeGest pesquisarNodeGest(String sector){
+    public String pesquisarNodeGest(String sector){
         //SOAP
-        NodeGest nodegest = new NodeGest();
-        return nodegest;
+        
+        
+        NodeGestWS_Service nodeGestService = new NodeGestWS_Service();
+        NodeGestWS nodeGestWS = nodeGestService.getNodeGestWSPort();
+        
+        
+        return nodeGestWS.pesquisarNodeGest(sector).toString();
     }
     
     //METODOS PARA INTRODUZIR NODES E SENSORES 

@@ -40,7 +40,7 @@ public class GereNodeGest {
         return true;
     }
     
-    public NodeGest pesquisarNodeGest(String sector){
+    public String pesquisarNodeGest(String sector){
         NodeGest nodegest = null;
         try {
             Connection connection = NodeGestDB.getConnection();
@@ -56,7 +56,7 @@ public class GereNodeGest {
                 nodegest.setSector(rSet.getString("sector"));
                
             }else{
-                return nodegest;
+                return nodegest.toString();
             }
             connection.close();
             
@@ -64,7 +64,7 @@ public class GereNodeGest {
             Logger.getLogger(GereNodeGest.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return nodegest;
+        return nodegest.toString();
     }
     
     //METODOS PARA INTRODUZIR NODES E SENSORES 

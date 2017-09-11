@@ -5,10 +5,7 @@
  */
 package nodegest;
 
-/**
- *
- * @author bruno
- */
+
 public class NodeGest {
     
     private String sector;

@@ -7,10 +7,7 @@ package manager;
 
 import java.io.PrintStream;
 
-/**
- *
- * @author bruno
- */
+
 public class NodeGest {
     
     public String sector;

@@ -9,10 +9,7 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 
-/**
- *
- * @author bruno
- */
+
 @WebService(serviceName = "NodeGestWS")
 public class NodeGestWS {
 
@@ -42,7 +39,7 @@ public class NodeGestWS {
     
     
     @WebMethod(operationName = "pesquisarNodeGest")
-    public NodeGest pesquisarNodeGest(@WebParam(name = "sector") String sector){
+    public String pesquisarNodeGest(@WebParam(name = "sector") String sector){
         GereNodeGest DB = new GereNodeGest();
         return DB.pesquisarNodeGest(sector);
     }

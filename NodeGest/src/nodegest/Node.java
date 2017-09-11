@@ -7,10 +7,7 @@ package nodegest;
 
 import java.io.PrintStream;
 
-/**
- *
- * @author bruno
- */
+
 public class Node {
     
     public String zone;

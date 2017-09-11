@@ -10,10 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- *
- * @author bruno
- */
+
 public class ManagerDB {
     
     //TODO CRIAR E INSERIR BASE DE DADOS NO URL
